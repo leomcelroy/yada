@@ -105,8 +105,8 @@ html, body {
   border: 3px solid #00000000;
 }
 
-.node:hover .node-name {
-  opacity: 0.7;
+.node:hover {
+  border: 3px solid white;
 }
 
 .selected-node {
