@@ -1,0 +1,198 @@
+html, body {
+  margin: 0px;
+  width: 100vw;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+.no-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Safari */
+  -khtml-user-select: none;    /* Konqueror HTML */
+  -moz-user-select: none;      /* Old versions of Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu {
+  background: #3d2788;
+  color: white;
+  height: min-content;
+  width: 100%;
+  display: flex;
+}
+
+.menu-item {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+}
+
+.menu-item:hover {
+  background: purple;
+  cursor: pointer;
+}
+
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-list {
+  visibility: hidden;
+  background: purple;
+  position: absolute;
+  padding: 5px;
+  overflow: hidden; /* this is bad and horrible but it works for now lol */
+  top: 99%;
+  left: 0;
+  box-sizing: border-box;
+}
+
+.dropdown-list > * {
+  width: 100%;
+}
+
+.dropdown-container:hover .dropdown-list {
+  visibility: visible;
+}
+
+.bottom-container {
+  background: blue;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.edges {
+  width: 1px;
+  height: 1px;
+  overflow: visible;
+  left: 0px;
+  top: 0px;
+  position: absolute;
+}
+
+.edge {
+  stroke: black;
+  fill: none;
+}
+
+.nodes {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.node {
+  position: absolute;
+  width: 100px;
+  height: min-content;
+  background: #add8e6e6;
+  border-radius: 10px;
+  padding: 7px;
+  border: 3px solid #00000000;
+}
+
+.node:hover .node-name {
+  opacity: 0.7;
+}
+
+.selected-node {
+  border: 3px solid sandybrown;
+}
+
+.node-title {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.node-delete:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.node-input {
+  display: flex;
+  align-items: center;
+}
+
+.node-input-circle {
+  width: 15px;
+  height: 15px;
+  background: grey;
+  border-radius: 50%;
+  margin-left: -14px;
+  margin-right: 5px;
+}
+
+.node-input-circle:hover,
+.node-output-circle:hover {
+  background: sandybrown;
+  cursor: default;
+}
+
+.node-output {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end
+
+}
+
+.node-output-circle {
+  width: 15px;
+  height: 15px;
+  background: grey;
+  border-radius: 50%;
+  margin-right: -14px;
+  margin-left: 5px;
+}
+
+.socket {
+  z-index: 10;
+}
+
+.toolbox {
+  background: floralwhite;
+  width: 250px;
+  overflow: scroll;
+}
+
+.toolbox-search {
+  width: 80%;
+  margin: 5px 10% 5px 10%;
+  padding: 5px;
+  box-sizing: border-box;
+  height: 30px;
+}
+
+.toolbox-node {
+  background: #add8e6;
+  margin-bottom: 5px;
+  padding: 10px;
+}
+
+.toolbox-node:hover {
+  opacity: .8;
+  background: sandybrown;
+  cursor: grab;
+}
+
+.dataflow {
+  background: antiquewhite;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}

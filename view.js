@@ -1,0 +1,174 @@
+import { render, html, svg } from './uhtml.js';
+import { dispatch } from "./index.js";
+
+const drawNodeToolbox = node => html`
+  <div class="toolbox-node" data-type=${node}>
+    ${node}
+  </div>
+`
+
+const drawNodeInput = (k, index, input) => html`
+  <div class="node-input">
+    <div 
+      class="node-input-circle socket" 
+      data-id=${`${k}:in:${index}`}></div>
+    <div class="node-input-name">${input.name}</div>
+  </div>
+`
+
+const drawNodeOutput = (k, index, output) => html`
+  <div class="node-output">
+    <div class="node-output-name">${output.name}</div>
+    <div 
+      class="node-output-circle socket"
+      data-id=${`${k}:out:${index}`}></div>
+  </div>
+`
+
+const drawNode = ([k, node], state) => {
+  const nt = state.nodeTypes[node.type];
+  const selected = state.selectedNodes.includes(k);
+  return html`
+    <div 
+      class=${["node", selected ? "selected-node" : ""].join(" ")}
+      data-id=${k}
+      style=${`left: ${node.x}px; top: ${node.y}px;`}>
+      <div class="node-title">
+        <div class="node-name">${nt.name}</div>
+        <div class="node-delete" @click=${e => dispatch("DELETE_NODE", { id: k })}>x</div>
+      </div>
+      ${nt.inputs.map((x, i) => drawNodeInput(k, i, x))}
+      ${nt.outputs.map((x, i) => drawNodeOutput(k, i, x))}
+    </div>
+  `
+}
+
+function getRelative(selector0, selector1) {
+  // Get the top, left coordinates of two elements
+  const el0 = document.querySelector(selector0);
+  const el1 = document.querySelector(selector1);
+  const eleRect = el0.getBoundingClientRect();
+  const targetRect = el1.getBoundingClientRect();
+
+  // Calculate the top and left positions
+  const top = eleRect.top - targetRect.top;
+  const left = eleRect.left - targetRect.left;
+
+  return [ left, top ];
+}
+
+function drawEdge(edge, state) {
+  const { nodes } = state;
+  const [ outNode, inNode ] = edge.map(x => x.split(":")[0]);
+  const { x: outX, y: outY } = nodes[outNode];
+  const { x: inX, y: inY } = nodes[inNode];
+
+  if (!document.querySelector(".socket") || state.dataflow === null) return;
+
+  const offset0 = getRelative(`[data-id="${edge[0]}"]`, `.dataflow`);
+  const offset1 = getRelative(`[data-id="${edge[1]}"]`, `.dataflow`);
+  const rect0 = document.querySelector(`[data-id="${edge[0]}"]`).getBoundingClientRect();
+  const rect1 = document.querySelector(`[data-id="${edge[1]}"]`).getBoundingClientRect();
+
+  const x0 = offset0[0]+rect0.width/2;
+  const y0 = offset0[1]+rect0.height/2;
+  const x1 = offset1[0]+rect1.width/2;
+  const y1 = offset1[1]+rect1.height/2;
+
+  let xDist = Math.abs(x0 - x1);
+  xDist = xDist/1.3;
+
+  const data = `M ${x0} ${y0} C ${x0 + xDist} ${y0}, ${x1 - xDist} ${y1}, ${x1} ${y1}`;
+
+  return svg`
+    <path class="edge" stroke-width=${`${3*state.dataflow.scale()}px`} vector-effect="non-scaling-stroke" d=${data}/>
+  `
+}
+
+function drawTempEdge(edge, state) {
+  if (!document.querySelector(".socket")) return;
+
+  const [ from, [x1, y1] ] = edge;
+
+  if (from === "" || state.dataflow === null) return "";
+
+  const offset0 = getRelative(`[data-id="${from}"]`, `.dataflow`);
+
+  const x0 = offset0[0]+document.querySelector(`[data-id="${from}"]`).getBoundingClientRect().width/2;
+  const y0 = offset0[1]+document.querySelector(`[data-id="${from}"]`).getBoundingClientRect().height/2;
+
+  let xDist = Math.abs(x0 - x1);
+  xDist = xDist/1.3;
+
+  const data = `M ${x0} ${y0} C ${x0 + xDist} ${y0}, ${x1 - xDist} ${y1}, ${x1} ${y1}`;
+
+  return svg`
+    <path class="edge" stroke-width=${`${3*state.dataflow.scale()}px`} vector-effect="non-scaling-stroke" d=${data}>
+  `
+}
+
+const drawSelectBox = box => {
+  if (!box || !box.start || !box.end) return "";
+
+  return html`
+    <div 
+      class="select-box" 
+      style=${`
+        background: blue;
+        opacity: 0.1;
+        z-index: 100;
+        position: absolute;
+        left: ${box.start[0]}px; 
+        top:${box.start[1]}px;
+        width: ${Math.abs(box.end[0] - box.start[0])}px; 
+        height:${Math.abs(box.end[1] - box.start[1])}px;
+      `}>
+    </div>
+  `
+}
+
+export default function view(state) {
+  let searchQuery = document.querySelector(".toolbox-search")?.value || "";
+  searchQuery = searchQuery.toLowerCase();
+  const filteredNodes = Object.keys(state.nodeTypes).filter(x => x.toLowerCase().includes(searchQuery));
+  
+  return html`
+    <div class="root">
+      <div class="menu">
+        <div class="menu-item" @click=${() => { console.log("clicked") }}>run</div>
+        <div class="menu-item dropdown-container">
+          list menu
+          <div class="dropdown-list">
+            <span>
+              option 1
+            </span>
+            <span>
+              option 2
+            </span>
+          </div>
+        </div>
+        <a class="menu-item" href="https://github.com/leomcelroy" target="_blank">github</a>
+      </div>
+      <div class="bottom-container">
+        <div class="toolbox">
+          <input class="toolbox-search" @input=${e => dispatch("RENDER")}></input>
+          ${filteredNodes.map(drawNodeToolbox)}
+        </div>
+        <div class="dataflow">
+          <svg class="edges">
+            <g>
+              ${state.connections.map(x => drawEdge(x, state))}
+              ${drawTempEdge(state.tempEdge, state)}
+            </g>
+          </svg>
+          <div class="nodes">
+            <div class="transform-group">
+              ${Object.entries(state.nodes).map(e => drawNode(e, state))}
+              ${drawSelectBox(state.selectBox)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
+} 
