@@ -3,5 +3,5 @@ import number from "./number.js";
 
 export default {
   adder,
-  number
+  number,
 }

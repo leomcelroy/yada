@@ -1,3 +1,5 @@
+import { render, html, svg } from '../uhtml.js';
+
 export default {
   name: "number",
   inputs: [
@@ -6,6 +8,9 @@ export default {
   outputs: [
     { name: "num", type: "number" }
   ],
+  view(node) {
+    return `value: ${node.inputs[0]}`
+  },
   func(num) {
     return [ num ];
   }

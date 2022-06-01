@@ -35,10 +35,12 @@ const drawNode = ([k, node], state) => {
       style=${`left: ${node.x}px; top: ${node.y}px;`}>
       <div class="node-title">
         <div class="node-name">${nt.name}</div>
+        <div class="node-play" @click=${e => dispatch("EVALUATE_NODE", { id: k })}>►</div>
         <div class="node-delete" @click=${e => dispatch("DELETE_NODE", { id: k })}>x</div>
       </div>
       ${nt.inputs.map((x, i) => drawNodeInput(k, i, x))}
       ${nt.outputs.map((x, i) => drawNodeOutput(k, i, x))}
+      <div class="node-view">${nt.view(node)}</div>
     </div>
   `
 }
@@ -127,6 +129,44 @@ const drawSelectBox = box => {
   `
 }
 
+function drawNodeInputs(state) {
+  const id = state.selectedNodes[0];
+  const node = state.nodes[id];
+  const nodeType = state.nodeTypes[node.type];
+
+  const onInput = (e, index) => {
+    node.inputs[index] = Number(e.target.value);
+    // dispatch("RENDER");
+  }
+
+  const inputTypes = {
+    "box": (name, value, wired, index) => html`
+      <div>
+        <span>${name}:</span>
+        <input 
+          .value=${value} 
+          .disabled=${wired}
+          @input=${e => onInput(e, index)}
+          @blur=${e => dispatch("RENDER")}/>
+        </div>
+    `
+  }
+
+  const drawInput = (i, index) => {
+
+    const wired = state.connections.some(([o, i]) => i === `${id}:in:${index}`);
+
+    return i.input 
+      ? inputTypes[i.input](i.name, node.inputs[index], wired, index) 
+      : ""
+  }
+
+  return html`
+    ${node.type}
+    ${nodeType.inputs.map(drawInput)}
+  `
+}
+
 export default function view(state) {
   let searchQuery = document.querySelector(".toolbox-search")?.value || "";
   searchQuery = searchQuery.toLowerCase();
@@ -135,7 +175,7 @@ export default function view(state) {
   return html`
     <div class="root">
       <div class="menu">
-        <div class="menu-item" @click=${() => { console.log("clicked") }}>run</div>
+        <div class="menu-item" @click=${() => { console.log("clicked") }}>option</div>
         <div class="menu-item dropdown-container">
           list menu
           <div class="dropdown-list">
@@ -151,8 +191,16 @@ export default function view(state) {
       </div>
       <div class="bottom-container">
         <div class="toolbox">
-          <input class="toolbox-search" @input=${e => dispatch("RENDER")}></input>
-          ${filteredNodes.map(drawNodeToolbox)}
+          <div class="toolbox-search-container">
+            <input class="toolbox-search" @input=${e => dispatch("RENDER")}></input>
+            <div class="toolbox-search-results">
+              ${filteredNodes.map(drawNodeToolbox)}
+            </div>
+          </div>
+          ${state.selectedNodes.length === 1
+              ? html`<div class="node-input-editor">${drawNodeInputs(state)}</div>`
+              : ""
+          }
         </div>
         <div class="dataflow">
           <svg class="edges">

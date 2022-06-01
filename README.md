@@ -12,6 +12,10 @@
 - add view property to nodes
   - should I support arbitrary interfaces?
 - add input fields
+  - box
+  - slider
+  - option selection
+  - curve editor
 - add type system
 - node bundling
 - search by type inputs

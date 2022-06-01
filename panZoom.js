@@ -1,3 +1,5 @@
+import { dispatch } from "./index.js";
+
 const trigger = e => e.composedPath()[0];
 const matchesTrigger = (e, selectorString) => trigger(e).matches(selectorString);
 // create on listener
@@ -37,6 +39,9 @@ export function addPanZoom(el) {
       el.style.transformOrigin = `${0}px ${0}px`;
       el.style.transform = "translate(" + pointX + "px, " + pointY + "px) scale(" + scale + ")";
     })
+
+    dispatch("RENDER"); 
+
    
     // if (state.gridSize > 0) dispatch("RENDER");
   }

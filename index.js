@@ -3,13 +3,14 @@ import { download } from "./download.js";
 import { addEvents } from "./events.js";
 import nodeList from "./nodes/nodeList.js"
 import view from "./view.js";
+import { evaluateNode } from "./evaluateNode.js";
 
 const STATE = {
   nodeTypes: nodeList,
   nodes: {
-    "fds": { type: "number", x: 150, y: 0 },
-    "fsa": { type: "number", x: 30, y: 0 },
-    "dsf": { type: "adder", x: 100, y: 100 }
+    "fds": { type: "number", x: 150, y: 0, inputs: [0], outputs: [42], evaluated: false },
+    "fsa": { type: "number", x: 30, y: 0, inputs: [0], outputs: [43], evaluated: false },
+    "dsf": { type: "adder", x: 100, y: 100, inputs: [0, 0], outputs: [42], evaluated: false }
   },
   connections: [
     ["fds:out:0", "dsf:in:0"],
@@ -28,6 +29,10 @@ const ACTIONS = {
   INIT(args, state) {
     dispatch("RENDER");
     addEvents(state);
+    dispatch("RENDER");
+  },
+  EVALUATE_NODE({ id }, state) {
+    evaluateNode(id, state.nodes, state.connections, state.nodeTypes);
     dispatch("RENDER");
   },
   DELETE_NODE({ id }, state) {

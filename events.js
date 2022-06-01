@@ -59,10 +59,24 @@ function addNodeAdding(listen, state) {
 
 
     const [ x, y ] = state.dataflow.getPoint(...getXY(e, ".dataflow"));
+     
+    const defaultValues = {
+      "number": 0
+    }
+
+    const { inputs, outputs } = state.nodeTypes[state.addDrag];
+
+    const defaultInputs = inputs.map(x => defaultValues[x.type]);
+    const defaultOutputs = outputs.map(x => defaultValues[x.type]);
+
+    // TODO: get default values from types
     state.nodes[id] = {
       type: state.addDrag,
       x,
-      y
+      y,
+      inputs: defaultInputs,
+      outputs: defaultOutputs,
+      evaluated: false
     }
     dispatch("RENDER");
 
@@ -108,8 +122,6 @@ function addWireManipulation(listen, state) {
   })
 
   listen("mousemove", "", e => {
-    dispatch("RENDER");
-
     if (from !== "") {
       const rect = document.querySelector(`[data-id="${from}"]`).getBoundingClientRect();
       const [ rx, ry ] = getRelative(`[data-id="${from}"]`, ".dataflow");
@@ -208,10 +220,10 @@ function addNodeDragging(listen, state) {
 
     document.body.classList.remove("no-select");
 
-    if (state.selectedNodes.length === 1 && moved) {
-      state.selectedNodes = [];
-      dispatch("RENDER");
-    }
+    // if (state.selectedNodes.length === 1 && moved) {
+    //   state.selectedNodes = [];
+    //   dispatch("RENDER");
+    // }
 
     nodeClicked = false;
     nodeId = "";
