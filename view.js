@@ -187,7 +187,7 @@ export default function view(state) {
             </span>
           </div>
         </div>
-        <a class="menu-item" href="https://github.com/leomcelroy" target="_blank">github</a>
+        <a class="menu-item" href="https://github.com/leomcelroy/yada" target="_blank">github</a>
       </div>
       <div class="bottom-container">
         <div class="toolbox">
