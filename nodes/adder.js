@@ -4,15 +4,12 @@ export default {
   name: "adder",
   inputs: [
     { name: "x", type: "number", input: "box" },
-    { name: "y", type: "number", input: "box"}
-    // z: { type: "number", input: "box" }
+    { name: "y", type: "number", input: "box" }
   ],
   outputs: [
     { name: "sum", type: "number" }
   ],
   view(node) {
-    // node.inputs
-    // node.outputs
     return html`
       <div>hello world</div>
       <div>the answer is ${node.outputs[0]}</div>
@@ -22,3 +19,4 @@ export default {
     return [ x+y ];
   }
 }
+
