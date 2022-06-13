@@ -53,8 +53,8 @@ function getRelative(selector0, selector1) {
   // Get the top, left coordinates of two elements
   const el0 = document.querySelector(selector0);
   const el1 = document.querySelector(selector1);
-  const eleRect = el0.getBoundingClientRect();
-  const targetRect = el1.getBoundingClientRect();
+  const eleRect = el0?.getBoundingClientRect() || { top: 0, left: 0 };
+  const targetRect = el1?.getBoundingClientRect() || { top: 1, left: 1 };
 
   // Calculate the top and left positions
   const top = eleRect.top - targetRect.top;
@@ -63,23 +63,24 @@ function getRelative(selector0, selector1) {
   return [ left, top ];
 }
 
-function drawEdge(edge, state) {
+function drawEdge(edge, state) { // there muse be a better way to do this
   const { nodes } = state;
   const [ outNode, inNode ] = edge.map(x => x.split(":")[0]);
   const { x: outX, y: outY } = nodes[outNode];
   const { x: inX, y: inY } = nodes[inNode];
 
-  if (!document.querySelector(".socket") || state.dataflow === null) return;
+  if (!document.querySelector(".socket") || state.dataflow === null) return "";
 
   const offset0 = getRelative(`[data-id="${edge[0]}"]`, `.dataflow`);
   const offset1 = getRelative(`[data-id="${edge[1]}"]`, `.dataflow`);
-  const rect0 = document.querySelector(`[data-id="${edge[0]}"]`).getBoundingClientRect();
-  const rect1 = document.querySelector(`[data-id="${edge[1]}"]`).getBoundingClientRect();
+  const rect0 = document.querySelector(`[data-id="${edge[0]}"]`)?.getBoundingClientRect() || { top: 0, left: 0 };
+  const rect1 = document.querySelector(`[data-id="${edge[1]}"]`)?.getBoundingClientRect() || { top: 0, left: 0 };
 
   const x0 = offset0[0]+rect0.width/2;
   const y0 = offset0[1]+rect0.height/2;
   const x1 = offset1[0]+rect1.width/2;
   const y1 = offset1[1]+rect1.height/2;
+
 
   let xDist = Math.abs(x0 - x1);
   xDist = xDist/1.3;
