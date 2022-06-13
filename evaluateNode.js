@@ -89,6 +89,8 @@ export async function evaluateNode(node, nodes, connections, nodeTypes) {
 
   const depthGroups = getGroups(depths);
 
+
+  // topo sort is wrong
   console.log(depths, depthGroups);
 
   for (let group of depthGroups) {
