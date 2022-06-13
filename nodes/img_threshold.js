@@ -5,9 +5,9 @@ function workerInternal() {
   self.onmessage = function(e) {
     const inputs = e.data;
 
-    const w = inputs.imageRGBA.width;
-    const h = inputs.imageRGBA.height;
-    const buf = inputs.imageRGBA.data;
+    const buf = inputs.buf;
+    const w = inputs.w;
+    const h = inputs.h;
     const t = inputs.threshold;
 
     let r, g, b, a, i;
@@ -45,12 +45,24 @@ function workerInternal() {
 export default {
   name: "thresholdRGBA",
   inputs: [
-    { name: "imageRGBA", type: "img" },
+    { name: "imageRGBA", type: "img_uint8" },
     { name: "threshold", type: "number", input: "box" }
   ],
   outputs: [
-    { name: "imageRGBA", type: "img" }
+    { name: "imageRGBA", type: "img_uint8" }
   ],
+  view(node, container) {
+    const img = node.outputs[0];
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.putImageData(img, 0, 0);
+
+    container.querySelectorAll("canvas").forEach(el => el.remove());
+    container.appendChild(canvas)
+    return "";
+  },
   func: async (img, thresh) => {
 
     const blob = new Blob(["(" + workerInternal.toString() + "())"]);
@@ -70,7 +82,11 @@ export default {
       };
     })
 
-    worker.postMessage({"imageRGBA": img, "threshold": thresh});
+    const buf = img.data;
+    const w = img.width;
+    const h = img.height;
+
+    worker.postMessage({buf, w, h, "threshold": thresh});
 
     return await Promise.all([result]);
   }
