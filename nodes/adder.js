@@ -9,8 +9,7 @@ export default {
   outputs: [
     { name: "sum", type: "number" }
   ],
-  view(node, container) {
-    
+  onUpdate(node, container) {
     render(
       container, 
       html`

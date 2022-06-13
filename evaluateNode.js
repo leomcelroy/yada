@@ -96,6 +96,19 @@ export async function evaluateNode(node, nodes, connections, nodeTypes) {
   for (let group of depthGroups) {
     const promises = group.map(evalNode);
     const outputs = await Promise.all(promises);
+    
+    group.forEach(n => {
+      const node = nodes[n];
+      const type = node.type;
+      const nodeType = nodeTypes[type];
+      const func = nodeType.func;
+
+      if (!nodeType.onUpdate) return;
+
+      const container = document.querySelector(`[data-id="${n}"] > .node-view`);
+
+      nodeType.onUpdate(node, container);
+    })
   }
 
 }

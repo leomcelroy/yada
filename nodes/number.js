@@ -8,8 +8,8 @@ export default {
   outputs: [
     { name: "num", type: "number" }
   ],
-  view(node) {
-    return `value: ${node.inputs[0]}`
+  onUpdate(node, container) {
+    container.innerHTML = `value: ${node.inputs[0]}`
   },
   func(num) {
     return [ num ];

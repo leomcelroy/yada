@@ -25,10 +25,12 @@ const drawNodeOutput = (k, index, output) => html`
   </div>
 `
 
-const drawNode = ([k, node], state) => {
+const drawNode = (item, state) => { // TODO: make this a keyed-render
+  const [ k, node ] = item;
   const nt = state.nodeTypes[node.type];
   const selected = state.selectedNodes.includes(k);
-  return html`
+
+  return html.for(node, k)`
     <div
       class=${["node", selected ? "selected-node" : ""].join(" ")}
       data-id=${k}
@@ -42,7 +44,7 @@ const drawNode = ([k, node], state) => {
       </div>
       ${nt.inputs.map((x, i) => drawNodeInput(k, i, x))}
       ${nt.outputs.map((x, i) => drawNodeOutput(k, i, x))}
-      <div class="node-view">${container => nt.view(node, container.parentNode)}</div>
+      <div class="node-view"></div>
     </div>
   `
 }
@@ -94,7 +96,7 @@ function drawTempEdge(edge, state) {
 
   const [ from, [x1, y1] ] = edge;
 
-  if (from === "" || state.dataflow === null) return "";
+  if (from === "" || state.dataflow === null) return svg``;
 
   const offset0 = getRelative(`[data-id="${from}"]`, `.dataflow`);
 
@@ -179,7 +181,12 @@ export default function view(state) {
   return html`
     <div class="root">
       <div class="menu">
-        <div class="menu-item" @click=${() => { console.log("clicked") }}>option</div>
+        <div 
+          class="menu-item menu-name" 
+          contenteditable 
+          spellcheck="false"
+          @blur=${e => dispatch("SET_NAME", { name: e.target.innerText })}>${state.name}</div>
+        <div class="menu-item" @click=${() => dispatch("SAVE_TO_FILE")}>save</div>
         <div class="menu-item dropdown-container">
           list menu
           <div class="dropdown-list">

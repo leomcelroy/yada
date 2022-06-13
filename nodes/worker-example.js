@@ -21,12 +21,7 @@ export default {
   outputs: [
     { name: "sum", type: "number" }
   ],
-  view(node) {
-    return html`
-      <div>hello world</div>
-      <div>the answer is ${node.outputs[0]}</div>
-    `
-  },
+  onUpdate(node, container) { },
   func: async (x, y) => {
 
     const blob = new Blob(["(" + workerInternal.toString() + "())"]);

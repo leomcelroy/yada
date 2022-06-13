@@ -8,18 +8,18 @@ export default {
   outputs: [
     { name: "imageRGBA", type: "img_uint8" }
   ],
-  view(node, container) {
+  onUpdate(node, container) {
 
     const img = node.inputs[0];
     const canvas = document.createElement('canvas');
     canvas.width = img.width;
     canvas.height = img.height;
-    var ctx = canvas.getContext("2d");
-    ctx.putImageData(img, 0, 0);
+    const imageData = new ImageData(img.data, img.width);
+    const ctx = canvas.getContext("2d");
+    ctx.putImageData(imageData, 0, 0);
 
-    container.querySelectorAll("canvas").forEach(el => el.remove());
-    container.appendChild(canvas)
-    return "";
+    container.innerHTML = "";
+    container.appendChild(canvas);
   },
   func: (x) => {
     return [ x ];

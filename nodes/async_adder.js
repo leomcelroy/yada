@@ -9,11 +9,14 @@ export default {
   outputs: [
     { name: "sum", type: "number" }
   ],
-  view(node) {
-    return html`
-      <div>hello world</div>
-      <div>the answer is ${node.outputs[0]}</div>
-    `
+  onUpdate(node, container) {
+    render( 
+      container, 
+      html`
+        <div>hello world</div>
+        <div>the answer is ${node.outputs[0]}</div>
+      `
+    )
   },
   func: async (x, y) => {
 
