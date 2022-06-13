@@ -9,7 +9,7 @@ export default {
   outputs: [
     { name: "sum", type: "number" }
   ],
-  view(node) {
+  view(node, container) {
     return html`
       <div>hello world</div>
       <div>the answer is ${node.outputs[0]}</div>

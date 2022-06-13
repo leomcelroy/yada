@@ -89,6 +89,8 @@ export async function evaluateNode(node, nodes, connections, nodeTypes) {
 
   const depthGroups = getGroups(depths);
 
+  console.log(depths, depthGroups);
+
   for (let group of depthGroups) {
     const promises = group.map(evalNode);
     const outputs = await Promise.all(promises);
