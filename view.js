@@ -9,8 +9,8 @@ const drawNodeToolbox = node => html`
 
 const drawNodeInput = (k, index, input) => html`
   <div class="node-input">
-    <div 
-      class="node-input-circle socket" 
+    <div
+      class="node-input-circle socket"
       data-id=${`${k}:in:${index}`}></div>
     <div class="node-input-name">${input.name}</div>
   </div>
@@ -19,7 +19,7 @@ const drawNodeInput = (k, index, input) => html`
 const drawNodeOutput = (k, index, output) => html`
   <div class="node-output">
     <div class="node-output-name">${output.name}</div>
-    <div 
+    <div
       class="node-output-circle socket"
       data-id=${`${k}:out:${index}`}></div>
   </div>
@@ -29,7 +29,7 @@ const drawNode = ([k, node], state) => {
   const nt = state.nodeTypes[node.type];
   const selected = state.selectedNodes.includes(k);
   return html`
-    <div 
+    <div
       class=${["node", selected ? "selected-node" : ""].join(" ")}
       data-id=${k}
       style=${`left: ${node.x}px; top: ${node.y}px;`}>
@@ -115,16 +115,16 @@ const drawSelectBox = box => {
   if (!box || !box.start || !box.end) return "";
 
   return html`
-    <div 
-      class="select-box" 
+    <div
+      class="select-box"
       style=${`
         background: blue;
         opacity: 0.1;
         z-index: 100;
         position: absolute;
-        left: ${box.start[0]}px; 
+        left: ${box.start[0]}px;
         top:${box.start[1]}px;
-        width: ${Math.abs(box.end[0] - box.start[0])}px; 
+        width: ${Math.abs(box.end[0] - box.start[0])}px;
         height:${Math.abs(box.end[1] - box.start[1])}px;
       `}>
     </div>
@@ -145,8 +145,8 @@ function drawNodeInputs(state) {
     "box": (name, value, wired, index) => html`
       <div>
         <span>${name}:</span>
-        <input 
-          .value=${value} 
+        <input
+          .value=${value}
           .disabled=${wired}
           @input=${e => onInput(e, index)}
           @blur=${e => dispatch("RENDER")}/>
@@ -158,8 +158,8 @@ function drawNodeInputs(state) {
 
     const wired = state.connections.some(([o, i]) => i === `${id}:in:${index}`);
 
-    return i.input 
-      ? inputTypes[i.input](i.name, node.inputs[index], wired, index) 
+    return i.input
+      ? inputTypes[i.input](i.name, node.inputs[index], wired, index)
       : ""
   }
 
@@ -173,7 +173,7 @@ export default function view(state) {
   let searchQuery = document.querySelector(".toolbox-search")?.value || "";
   searchQuery = searchQuery.toLowerCase();
   const filteredNodes = Object.keys(state.nodeTypes).filter(x => x.toLowerCase().includes(searchQuery));
-  
+
   return html`
     <div class="root">
       <div class="menu">
@@ -221,4 +221,4 @@ export default function view(state) {
       </div>
     </div>
   `
-} 
+}

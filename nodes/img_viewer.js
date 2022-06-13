@@ -9,6 +9,10 @@ export default {
     { name: "imageRGBA", type: "img" }
   ],
   view(node, container) {
+    if (container == null) {
+        return "";
+    }
+      
     const img = node.inputs[0];
     const canvas = document.createElement('canvas');
     canvas.width = img.width;
