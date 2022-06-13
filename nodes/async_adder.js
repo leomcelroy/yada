@@ -1,7 +1,7 @@
 import { render, html, svg } from '../uhtml.js';
 
 export default {
-  name: "adder",
+  name: "async_adder",
   inputs: [
     { name: "x", type: "number", input: "box" },
     { name: "y", type: "number", input: "box" }
@@ -15,9 +15,16 @@ export default {
       <div>the answer is ${node.outputs[0]}</div>
     `
   },
-  func: (x, y) => {
+  func: async (x, y) => {
 
-    return [x + y];
+    const result = new Promise(resolve => {
+      setTimeout(() => {
+        resolve(x+y+30);
+      }, 1000);
+    })
+
+
+    return await Promise.all([result]);
   }
 }
 

@@ -10,7 +10,8 @@ const STATE = {
   nodes: {
     "fds": { type: "number", x: 150, y: 0, inputs: [0], outputs: [42], evaluated: false },
     "fsa": { type: "number", x: 30, y: 0, inputs: [0], outputs: [43], evaluated: false },
-    "dsf": { type: "adder", x: 100, y: 100, inputs: [0, 0], outputs: [42], evaluated: false }
+    "dsf": { type: "adder", x: 100, y: 100, inputs: [0, 0], outputs: [42], evaluated: false },
+    "ync": { type: "async_adder", x: 300, y: 100, inputs: [0, 0], outputs: [42], evaluated: false }
   },
   connections: [
     ["fds:out:0", "dsf:in:0"],
@@ -32,8 +33,9 @@ const ACTIONS = {
     dispatch("RENDER");
   },
   EVALUATE_NODE({ id }, state) {
-    evaluateNode(id, state.nodes, state.connections, state.nodeTypes);
-    dispatch("RENDER");
+    evaluateNode(id, state.nodes, state.connections, state.nodeTypes).then( () => {
+      dispatch("RENDER");
+    });
   },
   DELETE_NODE({ id }, state) {
     state.connections =

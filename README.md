@@ -23,6 +23,8 @@ Some design considerations for YADA
 
 # TODO
 
+- evaluate node on timer
+- tensor data
 - create evaluation model
   - should I support cycles
   - how is evaluation triggered

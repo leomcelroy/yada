@@ -35,8 +35,10 @@ const drawNode = ([k, node], state) => {
       style=${`left: ${node.x}px; top: ${node.y}px;`}>
       <div class="node-title">
         <div class="node-name">${nt.name}</div>
-        <div class="node-play" @click=${e => dispatch("EVALUATE_NODE", { id: k })}>►</div>
-        <div class="node-delete" @click=${e => dispatch("DELETE_NODE", { id: k })}>x</div>
+        <div style="display: flex;">
+          <div class="node-play" @click=${e => dispatch("EVALUATE_NODE", { id: k })}>►</div>
+          <div class="node-delete" @click=${e => dispatch("DELETE_NODE", { id: k })}>x</div>
+        </div>
       </div>
       ${nt.inputs.map((x, i) => drawNodeInput(k, i, x))}
       ${nt.outputs.map((x, i) => drawNodeOutput(k, i, x))}

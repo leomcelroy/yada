@@ -97,7 +97,7 @@ html, body {
 
 .node {
   position: absolute;
-  width: 100px;
+  width: 150px;
   height: min-content;
   background: #add8e6e6;
   border-radius: 10px;
@@ -132,6 +132,10 @@ html, body {
 
 .node-delete:hover {
   color: red;
+}
+
+.node-play {
+  padding-right: 10px;
 }
 
 .node-play:hover {
