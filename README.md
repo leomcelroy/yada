@@ -45,6 +45,10 @@ Some design considerations for YADA
 - support asynchronous node evaluation
   - web workers in nodes
 - custom script writing
+- save
+- upload
+- fix bug with inputs
+- get default values from types
 - [x] add selection box
 - [x] add drag and drop from toolbox
 - [x] implement search

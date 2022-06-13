@@ -22,6 +22,6 @@ export default {
     return "";
   },
   func: (x) => {
-    return x;
+    return [ x ];
   }
 }

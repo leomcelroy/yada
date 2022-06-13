@@ -63,7 +63,7 @@ export default {
 
         const img = new ImageData(message[0], message[1], message[2]);
 
-        resolve({"imageRGBA": img});
+        resolve(img);
 
         // redundant to call this because I call self.close() in internal function
         // worker.terminate();

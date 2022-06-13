@@ -158,9 +158,11 @@ function drawNodeInputs(state) {
 
     const wired = state.connections.some(([o, i]) => i === `${id}:in:${index}`);
 
-    return i.input
+    const result = i.input && i.input in inputTypes
       ? inputTypes[i.input](i.name, node.inputs[index], wired, index)
-      : ""
+      : html``;
+
+    return result;
   }
 
   return html`
