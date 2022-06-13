@@ -2,6 +2,25 @@ import { addPanZoom } from "./panZoom.js";
 import { dispatch } from "./index.js";
 import { addSelectBox } from "./addSelectBox.js";
 
+const w = 100;
+const h = 100;
+const buf = new Uint8ClampedArray(w * h * 4);
+
+for (let i = 0; i < w; i++) {
+    for (let j = 0; j < h; j++) {
+        buf[(i * w + j)*4] = i*255/w;
+        buf[(i * w + j)*4+1] = j*255/h;
+        buf[(i * w + j)*4+2] = 0;
+        buf[(i * w + j)*4+3] = 255;
+    }
+}
+
+const defaultValues = {
+  "number": 0,
+  "img_uint8": new ImageData(buf, w, h),
+  "img_float32": {"data": new Float32Array(1), "width": 1, "height": 1}
+};
+
 const trigger = e => e.composedPath()[0];
 const matchesTrigger = (e, selectorString) => trigger(e).matches(selectorString);
 const pathContains = (e, selectorString) => e.composedPath().some(el => el.matches && el.matches(selectorString));
@@ -59,11 +78,6 @@ function addNodeAdding(listen, state) {
 
 
     const [ x, y ] = state.dataflow.getPoint(...getXY(e, ".dataflow"));
-     
-    const defaultValues = {
-      "number": 0,
-      "img": new ImageData(new Uint8ClampedArray(1*4), 1, 1)
-    }
 
     const { inputs, outputs } = state.nodeTypes[state.addDrag];
 
@@ -107,7 +121,7 @@ function addWireManipulation(listen, state) {
     currentIndex = state.connections.findIndex( x => x[1] === temp);
     if (currentConnection) {
       from = currentConnection[0];
-    } 
+    }
   })
 
   listen("mousedown", ".node-output-circle", e => {
@@ -127,7 +141,7 @@ function addWireManipulation(listen, state) {
       const rect = document.querySelector(`[data-id="${from}"]`).getBoundingClientRect();
       const [ rx, ry ] = getRelative(`[data-id="${from}"]`, ".dataflow");
       state.tempEdge = [
-        from, 
+        from,
         getXY(e, ".dataflow")
       ];
       dispatch("RENDER");
@@ -205,10 +219,10 @@ function addNodeDragging(listen, state) {
 
     const scale = state.dataflow.scale()
     state.selectedNodes.forEach(id => {
-      dispatch("MOVE_NODE", { 
-        id, 
-        dx: e.movementX/scale, 
-        dy: e.movementY/scale 
+      dispatch("MOVE_NODE", {
+        id,
+        dx: e.movementX/scale,
+        dy: e.movementY/scale
       });
     })
 
@@ -246,8 +260,3 @@ export function addEvents(state) {
   addNodeAdding(listenBody, state);
   addSelectBox(listenBody, state);
 }
-
-
-
-
-

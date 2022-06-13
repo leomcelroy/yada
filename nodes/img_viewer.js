@@ -3,10 +3,10 @@ import { render, html, svg } from '../uhtml.js';
 export default {
   name: "img viewer",
   inputs: [
-    { name: "imageRGBA", type: "img" },
+    { name: "imageRGBA", type: "img_uint8" },
   ],
   outputs: [
-    { name: "imageRGBA", type: "img" }
+    { name: "imageRGBA", type: "img_uint8" }
   ],
   view(node, container) {
 
