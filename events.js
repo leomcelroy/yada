@@ -61,7 +61,8 @@ function addNodeAdding(listen, state) {
     const [ x, y ] = state.dataflow.getPoint(...getXY(e, ".dataflow"));
      
     const defaultValues = {
-      "number": 0
+      "number": 0,
+      "img": new ImageData(new Uint8ClampedArray(1*4), 1, 1)
     }
 
     const { inputs, outputs } = state.nodeTypes[state.addDrag];
