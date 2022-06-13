@@ -2,6 +2,12 @@ import { addPanZoom } from "./panZoom.js";
 import { dispatch } from "./index.js";
 import { addSelectBox } from "./addSelectBox.js";
 
+const defaultValues = {
+  "number": 0,
+  "img": new ImageData(new Uint8ClampedArray(1*4), 1, 1)
+}
+    
+
 const trigger = e => e.composedPath()[0];
 const matchesTrigger = (e, selectorString) => trigger(e).matches(selectorString);
 const pathContains = (e, selectorString) => e.composedPath().some(el => el.matches && el.matches(selectorString));
@@ -60,11 +66,6 @@ function addNodeAdding(listen, state) {
 
     const [ x, y ] = state.dataflow.getPoint(...getXY(e, ".dataflow"));
      
-    const defaultValues = {
-      "number": 0,
-      "img": new ImageData(new Uint8ClampedArray(1*4), 1, 1)
-    }
-
     const { inputs, outputs } = state.nodeTypes[state.addDrag];
 
     const defaultInputs = inputs.map(x => defaultValues[x.type]);

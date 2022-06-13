@@ -10,10 +10,14 @@ export default {
     { name: "sum", type: "number" }
   ],
   view(node, container) {
-    return html`
-      <div>hello world</div>
-      <div>the answer is ${node.outputs[0]}</div>
-    `
+    
+    render(
+      container, 
+      html`
+        <div>hello world</div>
+        <div>the answer is ${node.outputs[0]}</div>
+      `
+    )
   },
   func: (x, y) => {
 

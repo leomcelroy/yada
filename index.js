@@ -14,8 +14,9 @@ const STATE = {
     "ync": { type: "async_adder", x: 300, y: 100, inputs: [0, 0], outputs: [42], evaluated: false }
   },
   connections: [
-    ["fds:out:0", "dsf:in:0"],
-    ["fsa:out:0", "dsf:in:1"]
+    ["fsa:out:0", "dsf:in:0"],
+    ["fsa:out:0", "fds:in:0"],
+    ["fds:out:0", "dsf:in:1"]
   ],
   selectedNodes: [],
   addDrag: "",
