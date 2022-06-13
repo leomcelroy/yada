@@ -42,7 +42,7 @@ const drawNode = ([k, node], state) => {
       </div>
       ${nt.inputs.map((x, i) => drawNodeInput(k, i, x))}
       ${nt.outputs.map((x, i) => drawNodeOutput(k, i, x))}
-      <div class="node-view">${nt.view(node)}</div>
+      <div class="node-view">${nt.view ? nt.view(node) : ""}</div>
     </div>
   `
 }
