@@ -12,6 +12,8 @@ export default {
     if (container == null) {
         return "";
     }
+
+    console.log(container);
       
     const img = node.inputs[0];
     const canvas = document.createElement('canvas');
@@ -20,8 +22,8 @@ export default {
     var ctx = canvas.getContext("2d");
     ctx.putImageData(img, 0, 0);
 
-    container.innerHTML = "";
-    container.append(canvas)
+    container.querySelectorAll("canvas").forEach(el => el.remove());
+    container.appendChild(canvas)
     return "";
   },
   func: (x) => {
