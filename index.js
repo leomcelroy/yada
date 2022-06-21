@@ -10,9 +10,9 @@ import { validateName } from "./validateName.js";
 const STATE = {
   nodeTypes: nodeList,
   nodes: {
-    "fds": { type: "number", x: 150, y: 0, inputs: [0], outputs: [42], evaluated: false },
-    "fsa": { type: "number", x: 30, y: 0, inputs: [0], outputs: [43], evaluated: false },
-    "dsf": { type: "adder", x: 100, y: 100, inputs: [0, 0], outputs: [42], evaluated: false },
+    "fds": { type: "number", x: 150, y: 0, inputs: [0], outputs: [42], evaluated: [false] },
+    "fsa": { type: "number", x: 30, y: 0, inputs: [0], outputs: [43], evaluated: [false] },
+    "dsf": { type: "adder", x: 100, y: 100, inputs: [0, 0], outputs: [42], evaluated: [false] },
   },
   connections: [
     ["fsa:out:0", "dsf:in:0"],
@@ -72,7 +72,6 @@ const decode = (jsonStr) => JSON.parse( jsonStr, function( key, value ){
 
 const ACTIONS = {
   RENDER(args, state) {
-    console.log("RENDERING");
     render(document.body, view(state));
   },
   SET_NAME({ name }, state) {

@@ -9,7 +9,6 @@ export default {
     { name: "imageRGBA", type: "img_uint8" }
   ],
   onUpdate(node, container) {
-
     const img = node.inputs[0];
     const canvas = document.createElement('canvas');
     canvas.width = img.width;

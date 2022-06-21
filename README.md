@@ -41,12 +41,15 @@ Some design considerations for YADA
 - add type system
 - node bundling
 - search by type inputs
-- save/upload
 - support asynchronous node evaluation
   - web workers in nodes
 - custom script writing
-- save
-- upload
+- don't eval fresh (not stale) edges
+- add trigger input
+- add timers
+- better track stale edges
+- [x] save
+- [x] upload
 - fix bug with inputs
 - get default values from types
 - [x] add selection box
