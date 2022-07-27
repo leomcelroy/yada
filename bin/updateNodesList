@@ -1,0 +1,44 @@
+#!/usr/bin/env node
+//
+// Update nodeList.js to have all the current nodes in it
+//
+var fs = require('fs');
+var path = require('path');
+
+var project_root = path.dirname(__dirname)
+var nodes_dir = project_root + "/nodes"
+var import_path = "./nodes/" // prefix to the basename( thenodefile.js )
+
+var exports = []
+list_files(nodes_dir)
+console.log( "export default {\n  " + exports.join(",\n  ") + "\n};" );
+
+function list_files(dir) {
+    let files = fs.readdirSync(dir)
+    for (file of files) {
+        if (path.extname(file) != '.js') {
+            continue;
+            }
+        if ( file.startsWith('.') ) {
+            continue;
+            }
+
+        let full_path = dir + '/' + file;
+        let stats = fs.statSync(full_path);
+        if (stats.isFile() == true) {
+            let relative_path = full_path.substring( nodes_dir.length + 1 );
+            let module_name = path.basename( file, '.js' );
+            module_name = module_name.replace('-','_');
+
+            let out = [];
+            out.push( "import " + module_name + " from " + '"' + import_path + relative_path + '";');
+            exports.push( module_name );
+            console.log( out.join("\n") )
+
+        } else if (stats.isDirectory() == true) {
+            throw new Error("Not implemented: nodes in subdirs aren't implemented yet!")
+            list_files(path + '/' + file, file)
+        } else
+            console.log('unknown file type')
+    }
+}
