@@ -22,7 +22,7 @@ export default {
 
     const result = new Promise(resolve => {
       setTimeout(() => {
-        resolve(x+y+30);
+        resolve(x+y);
       }, 1000);
     })
 
