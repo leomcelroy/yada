@@ -19,10 +19,10 @@ function readFile(file) {
   reader.readAsText(file);
 
   reader.onloadend = (event) => {
-    const file = reader.result;
+    const json = reader.result;
 
     try {
-      dispatch("LOAD_FILE", { file });
+      dispatch("LOAD_FILE", { json });
     } catch (err) {}
   };
 }

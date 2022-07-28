@@ -190,7 +190,10 @@ export default function view(state) {
         <div class="menu-item" @click=${() => dispatch("SAVE_TO_FILE")}>save</div>
         <div class="menu-item" @click=${() => document.getElementById("load_file").click()}>load</div>
         <!-- hidden -->
-        <input type="file" accept=".json" style="display:none;" id="load_file" name="file" @input=${e => dispatch("LOAD_FILE", e.target.files[0] )}>
+        <input type="file" accept=".json" style="display:none;" id="load_file" name="file" @input=${e => {
+          const file = e.target.files[0];
+          readFile(file).then( json => dispatch("LOAD_FILE", { json }) ); 
+        }}>
 
         <div class="menu-item dropdown-container">
           list menu
@@ -236,3 +239,11 @@ export default function view(state) {
     </div>
   `
 }
+
+function readFile(file) {
+  // file is an event.target.files[0], from change event of a <input type="file")
+  return new Promise((resolve, reject) => {
+    let fr = new FileReader();
+    fr.onload = x=> resolve(fr.result);
+    fr.readAsText(file);
+})}

@@ -1,5 +1,5 @@
 import { render, html, svg } from './uhtml.js';
-import { download, readFile } from "./download.js";
+import { download } from "./download.js";
 import { addEvents } from "./events.js";
 import nodeList from "./nodeList.js"
 import view from "./view.js";
@@ -88,16 +88,13 @@ const ACTIONS = {
     console.log(file);
     saveToFile(`${state.name}.json`, file);
   },
-  LOAD_FILE({ file }, state) {
-    readFile(file).then(json => {
-      console.log(json);
-      const { nodes, connections, name } = decode(json);
-      state.nodes = nodes;
-      state.connections = connections;
-      state.name = name;
-      dispatch("RENDER");
-      dispatch("SET_NAME", file);
-    });
+  LOAD_FILE({ json }, state) {
+    const { nodes, connections, name } = decode(json);
+    state.nodes = nodes;
+    state.connections = connections;
+    state.name = name;
+    dispatch("RENDER");
+    dispatch("SET_NAME", { name });
   },
   INIT(args, state) {
     dispatch("RENDER");
