@@ -2,7 +2,21 @@
 
  <img width="300" alt="Screen Shot 2022-05-31 at 9 39 05 PM" src="https://user-images.githubusercontent.com/27078897/171679946-9c6dbce3-871a-41c7-8ec7-2b8d6825be00.gif">
 
-Some design considerations for YADA
+
+## Install
+
+This is a self-contained, single-page, web-app. It does not require a smart backend web-server, only "static" files.
+
+We use yarn and vite for development.
+
+To run Yada locally. Clone or download the repo. Then initialize the repo and run the dev server.
+
+```
+yarn
+yarn dev
+```
+
+# Some design considerations for YADA
 
 - Nodes can be defined with a simple JS object. This structure also enables some rendering templates which can help unify the UI. Arbitrary HTML can still be included in the "view" function. Note also some explicit type declarations on inputs and outputs. These can be strictly enforced and also allow for intelligent inference of default values.
 
