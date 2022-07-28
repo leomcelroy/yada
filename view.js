@@ -188,6 +188,10 @@ export default function view(state) {
           spellcheck="false"
           @blur=${e => dispatch("SET_NAME", { name: e.target.innerText })}>${state.name}</div>
         <div class="menu-item" @click=${() => dispatch("SAVE_TO_FILE")}>save</div>
+        <div class="menu-item" @click=${() => document.getElementById("load_file").click()}>load</div>
+        <!-- hidden -->
+        <input type="file" accept=".json" style="display:none;" id="load_file" name="file" @input=${e => dispatch("LOAD_FILE", e.target.files[0] )}>
+
         <div class="menu-item dropdown-container">
           list menu
           <div class="dropdown-list">

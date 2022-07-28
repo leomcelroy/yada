@@ -1,6 +1,6 @@
 # YADA (Yet Another Dataflow Attempt)
 
- <img width="300" alt="Screen Shot 2022-05-31 at 9 39 05 PM" src="https://user-images.githubusercontent.com/27078897/171679946-9c6dbce3-871a-41c7-8ec7-2b8d6825be00.gif">
+<img width="300" alt="Screen Shot 2022-05-31 at 9 39 05 PM" src="https://user-images.githubusercontent.com/27078897/171679946-9c6dbce3-871a-41c7-8ec7-2b8d6825be00.gif">
 
 
 ## Install
