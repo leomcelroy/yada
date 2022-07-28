@@ -69,7 +69,6 @@ const decode = (jsonStr) => JSON.parse( jsonStr, function( key, value ){
   return value;
 });
 
-
 const ACTIONS = {
   RENDER(args, state) {
     render(document.body, view(state));
@@ -89,12 +88,15 @@ const ACTIONS = {
     console.log(file);
     saveToFile(`${state.name}.json`, file);
   },
-  UPLOAD({ file }, state) {
-    const { nodes, connections, name } = decode(file);
-    state.nodes = nodes;
-    state.connections = connections;
-    state.name = name;
-    dispatch("RENDER");
+  LOAD_FILE(file, state) {
+    readFile(file).then(json => {
+      const { nodes, connections, name } = decode(json);
+      state.nodes = nodes;
+      state.connections = connections;
+      state.name = name;
+      dispatch("RENDER");
+      dispatch("SET_NAME", file);
+    });
   },
   INIT(args, state) {
     dispatch("RENDER");
@@ -142,8 +144,3 @@ export function dispatch(action, args = {}) {
 window.LOG_STATE = () => console.log(STATE);
 
 dispatch("INIT");
-
-
-
-
-

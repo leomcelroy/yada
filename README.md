@@ -1,8 +1,30 @@
 # YADA (Yet Another Dataflow Attempt)
 
- <img width="300" alt="Screen Shot 2022-05-31 at 9 39 05 PM" src="https://user-images.githubusercontent.com/27078897/171679946-9c6dbce3-871a-41c7-8ec7-2b8d6825be00.gif">
+<img width="300" alt="Screen Shot 2022-05-31 at 9 39 05 PM" src="https://user-images.githubusercontent.com/27078897/171679946-9c6dbce3-871a-41c7-8ec7-2b8d6825be00.gif">
 
-Some design considerations for YADA
+## Install
+
+This is a self-contained, single-page, web-app. It does not require a smart backend web-server, only "static" files.
+
+### Firefox, Chrome
+
+Opening just the `index.html` will not work in Firefox or Chrome. They have a security policy that will not allow the `import` in the javascript files. You need a minimal, static, http server. Here's some ideas so you can use `http://localhost:8000`.
+
+* `python2 -m SimpleHTTPServer 8000`
+* `python3 -m http.server 8000`
+* `busybox httpd -f -vv -p 8000`
+* `ruby -run -e httpd . -p8000`
+  *    supports byte-range
+* If you have node/npm, and do `npm install http-server -g`
+  * `http-server . 8000`
+  * supports byte range supposedly
+* nginx https://gist.github.com/asterite3/89236d1753a669e173531aca4b87afdc
+* web server for chrome https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?hl=en
+* PHP? Really?
+  * `php -S 0.0.0.0:8000`
+
+
+# Some design considerations for YADA
 
 - Nodes can be defined with a simple JS object. This structure also enables some rendering templates which can help unify the UI. Arbitrary HTML can still be included in the "view" function. Note also some explicit type declarations on inputs and outputs. These can be strictly enforced and also allow for intelligent inference of default values.
 
