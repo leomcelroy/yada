@@ -1,7 +1,7 @@
 import { render, html, svg } from './uhtml.js';
 import { download } from "./download.js";
 import { addEvents } from "./events.js";
-import nodeList from "./nodes/nodeList.js"
+import nodeList from "./nodeList.js"
 import view from "./view.js";
 import { evaluateNode } from "./evaluateNode.js";
 import { saveToFile } from "./saveToFile.js";
