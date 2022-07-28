@@ -7,13 +7,31 @@
 
 This is a self-contained, single-page, web-app. It does not require a smart backend web-server, only "static" files.
 
-We use yarn and vite for development.
+You'll have to run a server for JS modules to work properly. Here's some ideas so you can use `http://localhost:8000`.
 
-To run Yada locally. Clone or download the repo. Then initialize the repo and run the dev server.
+* `python2 -m SimpleHTTPServer 8000`
+* `python3 -m http.server 8000`
+* `busybox httpd -f -vv -p 8000`
+* `ruby -run -e httpd . -p8000`
+  *    supports byte-range
+* If you have node/npm, and do `npm install http-server -g`
+  * `http-server . 8000`
+  * supports byte range supposedly
+* nginx https://gist.github.com/asterite3/89236d1753a669e173531aca4b87afdc
+* web server for chrome https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?hl=en
+* PHP? Really?
+  * `php -S 0.0.0.0:8000`
+
+I often use [live-server](https://www.npmjs.com/package/live-server) for development.
 
 ```
-yarn
-yarn dev
+npm install -g live-server
+```
+
+Then in the project directory run
+
+```
+live-server
 ```
 
 # Some design considerations for YADA

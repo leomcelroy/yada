@@ -1,5 +1,5 @@
 import { render, html, svg } from './uhtml.js';
-import { download } from "./download.js";
+import { download, readFile } from "./download.js";
 import { addEvents } from "./events.js";
 import nodeList from "./nodeList.js"
 import view from "./view.js";
@@ -88,8 +88,9 @@ const ACTIONS = {
     console.log(file);
     saveToFile(`${state.name}.json`, file);
   },
-  LOAD_FILE(file, state) {
+  LOAD_FILE({ file }, state) {
     readFile(file).then(json => {
+      console.log(json);
       const { nodes, connections, name } = decode(json);
       state.nodes = nodes;
       state.connections = connections;
@@ -142,5 +143,4 @@ export function dispatch(action, args = {}) {
 }
 
 window.LOG_STATE = () => console.log(STATE);
-
 dispatch("INIT");

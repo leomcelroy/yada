@@ -22,7 +22,7 @@ function readFile(file) {
     const file = reader.result;
 
     try {
-      dispatch("UPLOAD", { file });
+      dispatch("LOAD_FILE", { file });
     } catch (err) {}
   };
 }

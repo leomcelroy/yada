@@ -261,7 +261,7 @@ function addNodeDragging(listen, state) {
 
 
 
-export function addEvents(state) {
+export const addEvents = (state) => {
   state.dataflow = addPanZoom(document.querySelector(".dataflow"));
 
   const body = document.querySelector("body");
