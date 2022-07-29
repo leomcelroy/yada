@@ -41,8 +41,6 @@ export function addPanZoom(el) {
     })
 
     dispatch("RENDER"); 
-
-   
     // if (state.gridSize > 0) dispatch("RENDER");
   }
 

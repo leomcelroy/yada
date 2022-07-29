@@ -140,4 +140,6 @@ export function dispatch(action, args = {}) {
 }
 
 window.LOG_STATE = () => console.log(STATE);
-dispatch("INIT");
+window.addEventListener("load", () => {
+  dispatch("INIT");
+});

@@ -92,7 +92,7 @@ function addNodeAdding(listen, state) {
       y,
       inputs: defaultInputs,
       outputs: defaultOutputs,
-      evaluated: false
+      evaluated: new Array(defaultOutputs.length).fill(false)
     }
     dispatch("RENDER");
 
@@ -242,7 +242,7 @@ function addNodeDragging(listen, state) {
   })
 
   listen("mouseup", "", e => {
-    // TODO if over toolbox then delete node
+    // TODO: if over toolbox then delete node
 
     document.body.classList.remove("no-select");
 
@@ -259,9 +259,8 @@ function addNodeDragging(listen, state) {
   })
 }
 
+export function addEvents(state) {
 
-
-export const addEvents = (state) => {
   state.dataflow = addPanZoom(document.querySelector(".dataflow"));
 
   const body = document.querySelector("body");
