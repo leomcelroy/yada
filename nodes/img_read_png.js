@@ -32,9 +32,8 @@ export default {
     let canvas;
     let children = render(
       container,
-      // container.getAttribute('data-id')?
       html`
-        <input type="file" id="file_input" @change=${(e) => {read(e, node, canvas)}}>
+        <input type="file" @change=${(e) => {read(e, node, canvas)}}>
         <canvas name='canvas'>
       `
     );
