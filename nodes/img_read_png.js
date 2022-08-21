@@ -76,10 +76,9 @@ function read(event,node,canvas) {
           ctx.drawImage(img, 0, 0)
 
         // FIXME: Neil determined "dpi" info. is that important or useful?
-      }
 
-      // FIXME: we need to put this image somewhere. but where? fake input.
-      node.inputs[0] = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+        // FIXME: we need to put this image somewhere. but where? fake input.
+        node.inputs[0] = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
       }
   }
 
