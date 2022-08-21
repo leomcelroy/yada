@@ -202,11 +202,12 @@ export default {
   name: "img vectorize",
   inputs: [
     { name: "imageRGBA", type: "img_uint8" },
+    // FIXME: what does this do?
     { name: "vectorFit", type: "number", input: "box" },
     { name: "sort", type: "boolean", input: "check" }
   ],
   outputs: [
-    { name: "vectors", type: "path" }
+    { name: "paths", type: "path" }
   ],
   onUpdate(node, container) {
     const path = node.outputs[0];

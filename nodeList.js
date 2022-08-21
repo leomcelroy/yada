@@ -9,6 +9,7 @@ import img_threshold from "./nodes/img_threshold.js";
 import img_vectorize from "./nodes/img_vectorize.js";
 import img_viewer from "./nodes/img_viewer.js";
 import number from "./nodes/number.js";
+import path_viewer from "./nodes/path_viewer.js";
 import worker_example from "./nodes/worker-example.js";
 export default {
   adder,
@@ -21,5 +22,6 @@ export default {
   img_vectorize,
   img_viewer,
   number,
+  path_viewer,
   worker_example
 };

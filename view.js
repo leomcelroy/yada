@@ -28,6 +28,11 @@ const drawNodeOutput = (k, index, output) => html`
 const drawNode = (item, state) => { // TODO: make this a keyed-render
   const [ k, node ] = item;
   const nt = state.nodeTypes[node.type];
+  if (! nt) {
+    // FIXME: better message/exception-type. catch in load-file
+    // FIXME: this also crashes all future rendering
+    throw ["The node type '",node.type,"' isn't a known one (name change?): ",Object.keys(state.nodeTypes)].join("");
+    }
   const selected = state.selectedNodes.includes(k);
 
   return html.for(node, k)`

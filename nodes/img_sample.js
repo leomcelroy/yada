@@ -37,7 +37,7 @@ function transform(h,w) {
 };
 
 export default {
-  name: "img offset",
+  name: "img sample",
   inputs: [
     { name: "height", type: "number", input: "box" },
     { name: "width", type: "number", input: "box" }
