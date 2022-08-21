@@ -1,10 +1,10 @@
 export default {
   name: "number",
   inputs: [
-    { name: "names-that-are-num", type: "number", input: "box", exposed: false },
+    { name: "inputNum", type: "number", input: "box" },
   ],
   outputs: [
-    { name: "names-that-are-num", type: "number" }
+    { name: "outputNum", type: "number" }
   ],
   onUpdate(node, container) {
     container.innerHTML = `value: ${node.inputs[0]}`

@@ -2,25 +2,7 @@ import { addPanZoom } from "./panZoom.js";
 import { dispatch } from "./index.js";
 import { addSelectBox } from "./addSelectBox.js";
 import { addDropUpload } from "./addDropUpload.js";
-
-const w = 100;
-const h = 100;
-const buf = new Uint8ClampedArray(w * h * 4);
-
-for (let i = 0; i < w; i++) {
-    for (let j = 0; j < h; j++) {
-        buf[(i * w + j)*4] = i*255/w;
-        buf[(i * w + j)*4+1] = j*255/h;
-        buf[(i * w + j)*4+2] = 0;
-        buf[(i * w + j)*4+3] = 255;
-    }
-}
-
-const defaultValues = {
-  "number": 0,
-  "img_uint8": { data: buf, width: w, height: h },
-  "img_float32": {"data": new Float32Array(1), "width": 1, "height": 1}
-};
+import { defaultValues } from "./types.js";
 
 const trigger = e => e.composedPath()[0];
 const matchesTrigger = (e, selectorString) => trigger(e).matches(selectorString);
@@ -104,9 +86,14 @@ function addNodeAdding(listen, state) {
       dispatch("RENDER");
     }
 
-    if (id !== "") {
-      dispatch("EVALUATE_NODE", { id });
-    }
+    /*
+    TODO: FIXME:
+    Do I need this? 
+    adding node should set proper default value
+    */
+    // if (id !== "") {
+    //   dispatch("EVALUATE_NODE", { id });
+    // }
 
     id = "";
     state.addDrag = "";
