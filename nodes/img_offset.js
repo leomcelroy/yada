@@ -2,7 +2,7 @@
 
 function workerInternal() {
 
-  function transform(img, offset ) {
+  function transform(img, offset ) { //##
     console.log('transform() offset',offset,img);
     var buf = img.data;
     var w = img.width;
@@ -36,7 +36,7 @@ function workerInternal() {
     const inputs = e.data;
     console.log('workerInternal.onmessage',inputs);
 
-    buf = transform(inputs.img, inputs.offset );
+    buf = transform(inputs.img, inputs.offset ); //##
 
     self.postMessage([buf]);
 
@@ -48,7 +48,7 @@ function workerInternal() {
 
 export default {
   name: "img offset",
-  inputs: [
+  inputs: [ //##
     { name: "imageRGBA", type: "img_uint8" },
     { name: "offset", type: "number", input: "box" }
   ],
@@ -68,7 +68,7 @@ export default {
     container.innerHTML = "";
     container.appendChild(canvas);
   },
-  func: async (img, offset) => {
+  func: async (img, offset) => { //##
 
     const blob = new Blob(["(" + workerInternal.toString() + "())"]);
     const url = window.URL.createObjectURL(blob);
@@ -83,9 +83,8 @@ export default {
       };
     })
 
-    console.log("work,postMessage", {img, "offset": offset});
-    worker.postMessage({img, offset});
-    console.log("after work,postMessage", {img, offset});
+    console.log("work,postMessage");
+    worker.postMessage({img, offset}); //##
 
     return await Promise.all([result]);
   }
