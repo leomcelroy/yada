@@ -139,8 +139,8 @@ function drawNodeInputs(state) {
   const node = state.nodes[id];
   const nodeType = state.nodeTypes[node.type];
 
-  const onInput = (e, index) => {
-    node.inputs[index] = Number(e.target.value);
+  const onInput = (v, index) => {
+    node.inputs[index] = v;
     // dispatch("RENDER");
   }
 
@@ -151,7 +151,18 @@ function drawNodeInputs(state) {
         <input
           .value=${value}
           .disabled=${wired}
-          @input=${e => onInput(e, index)}
+          @input=${e => onInput(Number(e.target.value), index)}
+          @blur=${e => dispatch("RENDER")}/>
+        </div>
+    `,
+    "check": (name, value, wired, index) => html`
+      <div>
+        <span>${name}:</span>
+        <input
+          type=checkbox
+          .checked=${value ? 'checked' : ''}
+          .disabled=${wired}
+          @input=${e => onInput(!!e.target.checked, index)}
           @blur=${e => dispatch("RENDER")}/>
         </div>
     `

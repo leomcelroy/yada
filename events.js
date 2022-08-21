@@ -19,7 +19,9 @@ for (let i = 0; i < w; i++) {
 const defaultValues = {
   "number": 0,
   "img_uint8": { data: buf, width: w, height: h },
-  "img_float32": {"data": new Float32Array(1), "width": 1, "height": 1}
+  "img_float32": {"data": new Float32Array(1), "width": 1, "height": 1},
+  "boolean": true,
+  "path": [], // a list of vectors[ [[x,y],[x,y]], ... ] i.e. [ [from,to] ]
 };
 
 const trigger = e => e.composedPath()[0];
