@@ -211,6 +211,7 @@ export default {
   ],
   onUpdate(node, container) {
     const path = node.outputs[0];
+    // FIXME: why shouldn't this show the vector (path_viewer.js)?
     render(
       container,
       html`
