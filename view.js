@@ -1,5 +1,6 @@
 import { render, html, svg } from './uhtml.js';
 import { dispatch } from "./index.js";
+import { onUpload } from "./uploadHandlers.js";
 
 const drawNodeToolbox = node => html`
   <div class="toolbox-node" data-type=${node}>
@@ -10,7 +11,11 @@ const drawNodeToolbox = node => html`
 const drawNodeInput = (k, index, input) => html`
   <div class="node-input">
     <div
-      class="node-input-circle socket"
+      class=${[
+        "node-input-circle", 
+        "socket", 
+        ["upload"].includes(input.input) ? "hide-socket" : ""
+      ].join(" ")}
       data-id=${`${k}:in:${index}`}></div>
     <div class="node-input-name">${input.name}</div>
   </div>
@@ -169,7 +174,10 @@ function drawNodeInputs(state) {
           .disabled=${wired}
           @input=${e => onInput(!!e.target.checked, index)}
           @blur=${e => dispatch("RENDER")}/>
-        </div>
+      </div>
+    `,
+    "upload": (name, value, wired, index) => html`
+      <input type="file" @change=${(e) => onUpload(e, node, name, value, wired, index)}/>
     `
   }
 

@@ -162,6 +162,10 @@ html, body {
   cursor: default;
 }
 
+.hide-socket {
+  display: none;
+}
+
 .node-output {
   display: flex;
   align-items: center;
