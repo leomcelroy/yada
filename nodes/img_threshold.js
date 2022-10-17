@@ -22,7 +22,7 @@ function workerInternal() {
         let val;
         if (a === 0) {
           val = 255;
-        } else if (i > t) {
+        } else if (i >= t) { // > or >=
           val = 255;
         } else {
           val = 0;

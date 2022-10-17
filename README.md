@@ -78,6 +78,7 @@ live-server
 - add trigger input
 - add timers
 - better track stale edges
+- resize images on upload
 
 
 - [x] support asynchronous node evaluation

@@ -1,31 +1,13 @@
 import { render, html, svg } from './uhtml.js';
 import { download } from "./download.js";
 import { addEvents } from "./events.js";
-import nodeList from "./nodeList.js"
 import view from "./view.js";
 import { evaluateNode } from "./evaluateNode.js";
 import { saveToFile } from "./saveToFile.js";
 import { validateName } from "./validateName.js";
 import { encode, decode } from "./encodeDecodeBOTA.js";
+import { global_state } from "./global_state.js";
 
-const STATE = {
-  nodeTypes: nodeList,
-  nodes: {
-    "fds": { type: "number", x: 150, y: 0, inputs: [0], outputs: [42], evaluated: [false] },
-    "fsa": { type: "number", x: 30, y: 0, inputs: [0], outputs: [43], evaluated: [false] },
-    "dsf": { type: "adder", x: 100, y: 100, inputs: [0, 0], outputs: [42], evaluated: [false] },
-  },
-  connections: [
-    ["fsa:out:0", "dsf:in:0"],
-    ["fsa:out:0", "fds:in:0"],
-    ["fds:out:0", "dsf:in:1"]
-  ],
-  selectedNodes: [],
-  addDrag: "",
-  tempEdge: ["", [0 ,0]],
-  dataflow: null,
-  name: "default-name"
-}
 
 const ACTIONS = {
   RENDER(args, state) {
@@ -90,14 +72,14 @@ const ACTIONS = {
 
 export function dispatch(action, args = {}) {
   const trigger = ACTIONS[action];
-  if (trigger) return trigger(args, STATE);
+  if (trigger) return trigger(args, global_state);
   else {
     console.log("Action not recongnized:", action);
     return null;
   }
 }
 
-window.LOG_STATE = () => console.log(STATE);
+window.LOG_STATE = () => console.log(global_state);
 window.addEventListener("load", () => {
   dispatch("INIT");
 });

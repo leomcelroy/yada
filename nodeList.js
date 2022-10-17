@@ -12,6 +12,8 @@ import img_viewer from "./nodes/img_viewer.js";
 import number from "./nodes/number.js";
 import path_viewer from "./nodes/path_viewer.js";
 import worker_example from "./nodes/worker-example.js";
+import webSerial from "./nodes/webSerial.js";
+
 export default {
   adder,
   async_adder,
@@ -25,5 +27,6 @@ export default {
   img_viewer,
   number,
   path_viewer,
-  worker_example
+  worker_example,
+  webSerial
 };
