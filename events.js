@@ -91,9 +91,9 @@ function addNodeAdding(listen, state) {
     Do I need this? 
     adding node should set proper default value
     */
-    // if (id !== "") {
-    //   dispatch("EVALUATE_NODE", { id });
-    // }
+    if (id !== "") {
+      dispatch("EVALUATE_NODE", { id });
+    }
 
     id = "";
     state.addDrag = "";
