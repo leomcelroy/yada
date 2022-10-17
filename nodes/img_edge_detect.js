@@ -394,11 +394,11 @@ function workerInternal() {
     return imgData;
   };
 
-  console.log("worker setup");
+  
 
   self.onmessage = function(e) {
     const inputs = e.data;
-    console.log('workerInternal.onmessage',inputs);
+    
 
     buf = transform(inputs.img );
 
@@ -436,17 +436,17 @@ export default {
     const blob = new Blob(["(" + workerInternal.toString() + "())"]);
     const url = window.URL.createObjectURL(blob);
     const worker = new Worker(url);
-    console.log("after new Worker");
+    
 
     const result = new Promise(resolve => {
       worker.onmessage = e => {
-        console.log("receive worker.onmessage",e.data[0]);
+        
 
         resolve(e.data[0]);
       };
     })
 
-    console.log("work,postMessage");
+    
     worker.postMessage({img});
 
     return await Promise.all([result]);

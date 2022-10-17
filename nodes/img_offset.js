@@ -3,7 +3,7 @@
 function workerInternal() {
 
   function transform(img, offset ) { //##
-    console.log('transform() offset',offset,img);
+    // console.log('transform() offset',offset,img);
     var buf = img.data;
     var w = img.width;
     var h = img.height;
@@ -30,11 +30,11 @@ function workerInternal() {
     return imgData;
   };
 
-  console.log("worker setup");
+  // console.log("worker setup");
 
   self.onmessage = function(e) {
     const inputs = e.data;
-    console.log('workerInternal.onmessage',inputs);
+    // console.log('workerInternal.onmessage',inputs);
 
     buf = transform(inputs.img, inputs.offset ); //##
 
@@ -73,17 +73,17 @@ export default {
     const blob = new Blob(["(" + workerInternal.toString() + "())"]);
     const url = window.URL.createObjectURL(blob);
     const worker = new Worker(url);
-    console.log("after new Worker");
+    // console.log("after new Worker");
 
     const result = new Promise(resolve => {
       worker.onmessage = e => {
-        console.log("receive worker.onmessage",e.data[0]);
+        // console.log("receive worker.onmessage",e.data[0]);
 
         resolve(e.data[0]);
       };
     })
 
-    console.log("work,postMessage");
+    // console.log("work,postMessage");
     worker.postMessage({img, offset}); //##
 
     return await Promise.all([result]);
