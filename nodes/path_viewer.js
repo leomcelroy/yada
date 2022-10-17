@@ -51,7 +51,7 @@ export default {
     render(
       container,
       // FIXME: we need to get the height/width from somewhere
-      html`<svg viewBox="0 0 500 500">${rez}</svg>`
+      svg`<svg viewBox="0 0 500 500">${rez}</svg>`
     );
   },
   func: (x, y) => {
