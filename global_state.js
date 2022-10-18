@@ -12,8 +12,10 @@ export const global_state = {
     ["fsa:out:0", "fds:in:0"],
     ["fds:out:0", "dsf:in:1"]
   ],
+  // triggerEdges: [
+
+  // ],
   selectedNodes: [],
-  addDrag: "",
   tempEdge: ["", [0 ,0]],
   dataflow: null,
   name: "default-name"

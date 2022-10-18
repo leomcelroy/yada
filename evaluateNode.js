@@ -1,4 +1,3 @@
-import { dispatch } from "./index.js";
 
 export async function evaluateNode(node, nodes, connections, nodeTypes) {
   // topologically sort the nodes
@@ -73,6 +72,11 @@ export async function evaluateNode(node, nodes, connections, nodeTypes) {
     // const outputs = func.constructor.name === "AsyncFunction" 
     //   ? await func(...node.inputs)
     //   : func(...node.inputs);
+
+    const inputTypes = nodeType.inputs.map(x => x.type);
+    node.inputs.forEach((x, i) => {
+      if (inputTypes[i] === "number") node.inputs[i] = Number(x);
+    });
 
     const outputs = await func(...node.inputs);
     node.outputs = outputs;

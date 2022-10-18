@@ -47,7 +47,7 @@ const drawNode = (item, state) => { // TODO: make this a keyed-render
       style=${`left: ${node.x}px; top: ${node.y}px;`}>
       <div class="node-title">
         <div class="node-name">${nt.name}</div>
-        <div style="display: flex;">
+        <div class="node-buttons">
           <div class="node-play" @click=${e => dispatch("EVALUATE_NODE", { id: k })}>►</div>
           <div class="node-delete" @click=${e => dispatch("DELETE_NODE", { id: k })}>x</div>
         </div>
@@ -58,6 +58,10 @@ const drawNode = (item, state) => { // TODO: make this a keyed-render
     </div>
   `
 }
+      // <div class="node-trigger-input" data-id=${k}>▼</div>
+
+      // <div class="node-trigger-output" data-id=${k}>▼</div>
+
 
 function getRelative(selector0, selector1) {
   // Get the top, left coordinates of two elements
@@ -156,17 +160,17 @@ function drawNodeInputs(state) {
 
   const inputTypes = {
     "box": (name, value, wired, index) => html`
-      <div>
+      <div class="node-editor-input">
         <span>${name}:</span>
         <input
           .value=${value}
           .disabled=${wired}
-          @input=${e => onInput(Number(e.target.value), index)}
+          @input=${e => onInput(e.target.value, index)}
           @blur=${e => dispatch("RENDER")}/>
-        </div>
+      </div>
     `,
     "check": (name, value, wired, index) => html`
-      <div>
+      <div class="node-editor-input">
         <span>${name}:</span>
         <input
           type=checkbox
@@ -177,7 +181,9 @@ function drawNodeInputs(state) {
       </div>
     `,
     "upload": (name, value, wired, index) => html`
-      <input type="file" @change=${(e) => onUpload(e, node, name, value, wired, index)}/>
+      <div class="node-editor-input">
+        <input type="file" @change=${(e) => onUpload(e, node, name, value, wired, index)}/>
+      </div>
     `
   }
 
@@ -193,7 +199,7 @@ function drawNodeInputs(state) {
   }
 
   return html`
-    ${node.type}
+    <div class="node-editor-name">${node.type}</div>
     ${nodeType.inputs.map(drawInput)}
   `
 }
@@ -241,7 +247,10 @@ export default function view(state) {
             </div>
           </div>
           ${state.selectedNodes.length === 1
-              ? html`<div class="node-input-editor">${drawNodeInputs(state)}</div>`
+              ? html`<div class="node-input-editor">
+                  ${drawNodeInputs(state)}
+                  <div>state: ${JSON.stringify(state.nodes[state.selectedNodes[0]].state)}</div>
+                </div>`
               : ""
           }
         </div>

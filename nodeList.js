@@ -13,6 +13,7 @@ import number from "./nodes/number.js";
 import path_viewer from "./nodes/path_viewer.js";
 import worker_example from "./nodes/worker-example.js";
 import webSerial from "./nodes/webSerial.js";
+import webSocket from "./nodes/webSocket.js";
 
 export default {
   adder,
@@ -28,5 +29,6 @@ export default {
   number,
   path_viewer,
   worker_example,
-  webSerial
+  webSerial,
+  webSocket
 };

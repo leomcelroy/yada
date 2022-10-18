@@ -1,4 +1,4 @@
-import { dispatch } from "./index.js";
+import { dispatch } from "../index.js";
 
 const trigger = e => e.composedPath()[0];
 const matchesTrigger = (e, selectorString) => trigger(e).matches(selectorString);
@@ -67,9 +67,8 @@ export function addPanZoom(el) {
   })
 
   listen("mousemove", "", (e) => {
-    if (cancelPanZoom) return;
-    if (!mousedown) return;
-    // if (state.transforming) return;
+    if (cancelPanZoom || !mousedown) return;
+
     const [ x, y ] = getXY(e);
 
 

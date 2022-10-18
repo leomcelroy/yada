@@ -1,6 +1,7 @@
 // FIXME: put all the type tables in one place: defaults, encode, decode
 export const defaultValues = {
   "number": 0,
+  "string": "",
   "img_uint8": default_img_uint8(), // { data, width, height }
   "img_float32": {"data": new Float32Array(1), "width": 1, "height": 1},
   "boolean": true,
@@ -26,14 +27,11 @@ function default_img_uint8() {
 
 export function encodeType(type, val) {
   const types = {
-    "number": val => val,
     "img_uint8": val => ({
       data: btoa(val.data.reduce((data, byte) => data + String.fromCharCode(byte), '')),
       width: val.width,
       height: val.height
     }),
-    "boolean": val => val,
-    "path": val => val, // FIXME: encode?
     // "img_float32": val => ({
     //   // FIXME: float32 doesn't work, need to split into 4 bytes
     //   data: btoa(val.data.reduce((data, byte) => data + String.fromCharCode(byte), '')),
@@ -43,19 +41,16 @@ export function encodeType(type, val) {
   }
 
   if (type in types) return types[type](val);
-  else console.error("unknown type", type);
+  else return val;
 }
 
 export function decodeType(type, val) {
   const types = {
-    "number": val => val,
     "img_uint8": val => ({
       data: decodeBuf(val.data),
       width: val.width,
       height: val.height
     }),
-    "boolean": val => val,
-    "path": val => val,
     // "img_float32": val => ({
     //   // FIXME: float32 doesn't work, need to split into 4 bytes
     //   data: btoa(val.data.reduce((data, byte) => data + String.fromCharCode(byte), '')),
@@ -65,7 +60,7 @@ export function decodeType(type, val) {
   }
 
   if (type in types) return types[type](val);
-  else console.error("unknown type", type);
+  else return val;
 }
 
 

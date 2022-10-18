@@ -1,4 +1,4 @@
-import { dispatch } from "./index.js";
+import { dispatch } from "../index.js";
 
 function upload(files, extensions = []) {
   let file = files[0];

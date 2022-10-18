@@ -1,7 +1,7 @@
-import { addPanZoom } from "./panZoom.js";
 import { dispatch } from "./index.js";
-import { addSelectBox } from "./addSelectBox.js";
-import { addDropUpload } from "./addDropUpload.js";
+import { addSelectBox } from "./events/addSelectBox.js";
+import { addDropUpload } from "./events/addDropUpload.js";
+import { addPanZoom } from "./events/addPanZoom.js";
 
 import { defaultValues } from "./types.js";
 
@@ -49,9 +49,10 @@ const getXY = (e, selector) => {
 function addNodeAdding(listen, state) {
   let dragging = false;
   let id = "";
+  let typeToAdd = "";
 
   listen("mousedown", ".toolbox-node", e => {
-    state.addDrag = e.target.dataset.type;
+    typeToAdd = e.target.dataset.type;
     dragging = true;
     id = Math.random().toString(16).slice(2);
     dispatch("RENDER");
@@ -63,14 +64,15 @@ function addNodeAdding(listen, state) {
 
     const [ x, y ] = state.dataflow.getPoint(...getXY(e, ".dataflow"));
 
-    const { inputs, outputs } = state.nodeTypes[state.addDrag];
+    const { inputs, outputs } = state.nodeTypes[typeToAdd];
 
     const defaultInputs = inputs.map(x => defaultValues[x.type]);
     const defaultOutputs = outputs.map(x => defaultValues[x.type]);
 
     // TODO: get default values from types
     state.nodes[id] = {
-      type: state.addDrag,
+      type: typeToAdd,
+      state: {},
       x,
       y,
       inputs: defaultInputs,
@@ -92,12 +94,11 @@ function addNodeAdding(listen, state) {
     Do I need this? 
     adding node should set proper default value
     */
-    if (id !== "") {
+    if (id !== "" && pathContains(e, ".dataflow")) {
       dispatch("EVALUATE_NODE", { id });
     }
 
     id = "";
-    state.addDrag = "";
     dragging = false;
   })
 }
@@ -141,7 +142,6 @@ function addWireManipulation(listen, state) {
     }
 
     if (currentIndex !== -1) {
-      // console.log("remove", currentIndex);
       dispatch("REMOVE_CONNECTION", { index: currentIndex });
       currentIndex = -1;
     }
@@ -176,6 +176,7 @@ function addNodeDragging(listen, state) {
   let moved = false;
 
   listen("mousedown", "", e => {
+
     document.body.classList.add("no-select");
     const path = e.composedPath();
     if (path.some(div => div.matches && div.matches(".socket"))) {
@@ -191,8 +192,8 @@ function addNodeDragging(listen, state) {
       state.dataflow.togglePanZoom(true);
       nodeId = nodeClicked.dataset.id;
       const selected = state.selectedNodes.includes(nodeId);
-      if (selected && e.detail === 2) {
-        state.selectedNodes = state.selectedNodes.filter(id => id !== nodeId);
+      if (selected && e.detail === 2) { // if selected how to remove
+        // state.selectedNodes = state.selectedNodes.filter(id => id !== nodeId);
       } else if (!state.selectedNodes.includes(nodeId) && !e.shiftKey){
         state.selectedNodes = [nodeId];
       } else if (!state.selectedNodes.includes(nodeId) && e.shiftKey) {

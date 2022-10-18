@@ -1,6 +1,6 @@
 import { render, html, svg } from './uhtml.js';
 import { download } from "./download.js";
-import { addEvents } from "./events.js";
+import { addEvents } from "./addEvents.js";
 import view from "./view.js";
 import { evaluateNode } from "./evaluateNode.js";
 import { saveToFile } from "./saveToFile.js";
@@ -37,6 +37,7 @@ const ACTIONS = {
     dispatch("SET_NAME", { name });
   },
   INIT(args, state) {
+    console.log("initting");
     dispatch("RENDER");
     addEvents(state);
     dispatch("RENDER");
@@ -80,6 +81,16 @@ export function dispatch(action, args = {}) {
 }
 
 window.LOG_STATE = () => console.log(global_state);
+
 window.addEventListener("load", () => {
+  const r = () => {
+    render(document.body, view(global_state));
+    requestAnimationFrame(r);
+  };
+  // requestAnimationFrame(r);
+
+  // setInterval(r, 1000/30);
+  
+
   dispatch("INIT");
 });

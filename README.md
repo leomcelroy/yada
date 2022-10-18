@@ -55,7 +55,6 @@ live-server
 
 # TODO
 
-- evaluate node on timer
 - tensor data
 - create evaluation model
   - should I support cycles
@@ -75,8 +74,6 @@ live-server
 - search by type inputs
 - custom script writing
 - don't eval fresh (not stale) edges
-- add trigger input
-- add timers
 - better track stale edges
 - resize images on upload
 
@@ -95,3 +92,11 @@ live-server
 - [x] delete nodes
 - [x] fix wire rendering
   - could implement with panZoom on svg as well, probably would be preferable
+
+### Things we probably won't do
+
+- add trigger input
+- add timers
+- evaluate node on timer
+
+^ these confuse the execution model

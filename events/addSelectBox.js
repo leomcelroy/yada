@@ -1,4 +1,4 @@
-import { dispatch } from "./index.js";
+import { dispatch } from "../index.js";
 
 
 const getXY = (e, selector) => {

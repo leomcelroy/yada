@@ -125,9 +125,24 @@ html, body {
 }
 
 .node-title {
+  position: relative;
   display: flex;
-  justify-content: space-between;
   font-weight: bold;
+  justify-content: space-between;
+}
+
+.node-name {
+
+}
+
+.node-buttons {
+  position: absolute;
+  right: 0px;
+  display: flex; 
+}
+
+.node-delete {
+  padding-right: 10px;
 }
 
 .node-delete:hover {
@@ -139,6 +154,25 @@ html, body {
 }
 
 .node-play:hover {
+  color: sandybrown;
+}
+
+.node-trigger-input {
+  padding-right: 10px;
+  margin-top: -12px;
+}
+
+.node-trigger-input:hover {
+  color: sandybrown;
+}
+
+.node-trigger-output {
+  float: left;
+  position: absolute;
+  margin-top: 2px;
+}
+
+.node-trigger-output:hover {
   color: sandybrown;
 }
 
@@ -232,7 +266,19 @@ html, body {
   border: 3px solid sandybrown;
   margin: 2px;
   border-radius: 5px;
+  padding: 2px 8px 2px 8px;
   height: 30%;
+}
+
+.node-editor-name {
+  font-weight: 700;
+  padding-bottom: 5px;
+}
+
+.node-editor-input {
+  display: flex;
+  /*padding: 2px 8px 2px 8px;*/
+  justify-content: space-between;
 }
 
 .dataflow {
