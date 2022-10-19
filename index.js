@@ -1,8 +1,6 @@
 import { render, html, svg } from './uhtml.js';
-import { download } from "./download.js";
 import { addEvents } from "./addEvents.js";
-import view from "./view.js";
-import { evaluateNode } from "./evaluateNode.js";
+import { view } from "./view.js";
 import { saveToFile } from "./saveToFile.js";
 import { validateName } from "./validateName.js";
 import { encode, decode } from "./encodeDecodeBOTA.js";
@@ -42,33 +40,6 @@ const ACTIONS = {
     addEvents(state);
     dispatch("RENDER");
   },
-  EVALUATE_NODE({ id }, state) {
-    evaluateNode(id, state.nodes, state.connections, state.nodeTypes).then( () => {
-      dispatch("RENDER");
-    });
-  },
-  DELETE_NODE({ id }, state) {
-    state.connections =
-      state.connections.filter(([o, i]) => !o.includes(id) && !i.includes(id));
-    delete state.nodes[id];
-    state.selectedNodes = state.selectedNodes.filter(x => x !== id);
-    dispatch("RENDER");
-  },
-  MOVE_NODE({ id, dx, dy }, state) {
-    const node = state.nodes[id];
-    if (!node) return;
-    node.x += dx;
-    node.y += dy;
-  },
-  REMOVE_CONNECTION({ index }, state) {
-    state.connections = state.connections.filter((x, i) => i !== index);
-    dispatch("RENDER");
-  },
-  ADD_CONNECTION({ from, to }, state) {
-    // TODO: type check here
-    state.connections.push([ from, to ]);
-    dispatch("RENDER");
-  }
 }
 
 export function dispatch(action, args = {}) {
@@ -82,15 +53,21 @@ export function dispatch(action, args = {}) {
 
 window.LOG_STATE = () => console.log(global_state);
 
-window.addEventListener("load", () => {
-  const r = () => {
+let lastTime = 0;
+const r = (time) => {
+  const fps = 0;
+  const elapsed = time - lastTime;
+  if (fps === 0 || elapsed > 1000/fps) {
     render(document.body, view(global_state));
-    requestAnimationFrame(r);
-  };
-  // requestAnimationFrame(r);
+    lastTime = time;
+  }
+  requestAnimationFrame(r);
+};
 
-  // setInterval(r, 1000/30);
-  
+// setInterval(r, 1000/30);
 
+window.addEventListener("load", () => {
+  // render(document.body, view(global_state));
   dispatch("INIT");
+  // requestAnimationFrame(r);
 });

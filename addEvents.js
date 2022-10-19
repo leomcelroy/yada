@@ -1,7 +1,13 @@
-import { dispatch } from "./index.js";
 import { addSelectBox } from "./events/addSelectBox.js";
 import { addDropUpload } from "./events/addDropUpload.js";
 import { addPanZoom } from "./events/addPanZoom.js";
+
+import { render } from "./actions/render.js";
+import { remove_connection } from "./actions/remove_connection.js";
+import { add_connection } from "./actions/add_connection.js";
+import { delete_node } from "./actions/delete_node.js";
+import { move_node } from "./actions/move_node.js";
+import { evaluate_node } from "./actions/evaluate_node.js";
 
 import { defaultValues } from "./types.js";
 
@@ -55,7 +61,7 @@ function addNodeAdding(listen, state) {
     typeToAdd = e.target.dataset.type;
     dragging = true;
     id = Math.random().toString(16).slice(2);
-    dispatch("RENDER");
+    render();
   })
 
   listen("mousemove", "", e => {
@@ -79,14 +85,14 @@ function addNodeAdding(listen, state) {
       outputs: defaultOutputs,
       evaluated: new Array(defaultOutputs.length).fill(false)
     }
-    dispatch("RENDER");
+    render();
 
   })
 
   listen("mouseup", "", e => {
     if (dragging && pathContains(e, ".toolbox")) {
       delete state.nodes[id];
-      dispatch("RENDER");
+      render();
     }
 
     /*
@@ -95,7 +101,7 @@ function addNodeAdding(listen, state) {
     adding node should set proper default value
     */
     if (id !== "" && pathContains(e, ".dataflow")) {
-      dispatch("EVALUATE_NODE", { id });
+      evaluate_node(id);
     }
 
     id = "";
@@ -127,7 +133,7 @@ function addWireManipulation(listen, state) {
   })
 
   listen("wheel", "", e => {
-    dispatch("RENDER");
+    render();
   })
 
   listen("mousemove", "", e => {
@@ -138,11 +144,11 @@ function addWireManipulation(listen, state) {
         from,
         getXY(e, ".dataflow")
       ];
-      dispatch("RENDER");
+      render();
     }
 
     if (currentIndex !== -1) {
-      dispatch("REMOVE_CONNECTION", { index: currentIndex });
+      remove_connection(currentIndex);
       currentIndex = -1;
     }
   })
@@ -155,9 +161,9 @@ function addWireManipulation(listen, state) {
       // console.log("add", from, to);
       currentIndex = state.connections.findIndex( x => x[1] === to);
       if (currentIndex !== -1) {
-        dispatch("REMOVE_CONNECTION", { index: currentIndex });
+        remove_connection(currentIndex);
       }
-      dispatch("ADD_CONNECTION", { from, to });
+      add_connection(from, to);
     }
 
     from = "";
@@ -165,7 +171,7 @@ function addWireManipulation(listen, state) {
     currentIndex = -1;
 
     state.tempEdge = ["", [0, 0]];
-    dispatch("RENDER");
+    render();
   })
 
 }
@@ -206,10 +212,10 @@ function addNodeDragging(listen, state) {
     // hacky bug fix, for some reason input views intefere with each other
     const tempSelected = state.selectedNodes;
     state.selectedNodes = [];
-    dispatch("RENDER");
+    render();
 
     state.selectedNodes = tempSelected;
-    dispatch("RENDER");
+    render();
   })
 
   listen("mousemove", "", e => {
@@ -219,14 +225,10 @@ function addNodeDragging(listen, state) {
 
     const scale = state.dataflow.scale()
     state.selectedNodes.forEach(id => {
-      dispatch("MOVE_NODE", {
-        id,
-        dx: e.movementX/scale,
-        dy: e.movementY/scale
-      });
+      move_node(id, e.movementX/scale, e.movementY/scale);
     })
 
-    dispatch("RENDER");
+    render();
 
   })
 
@@ -237,7 +239,7 @@ function addNodeDragging(listen, state) {
 
     // if (state.selectedNodes.length === 1 && moved) {
     //   state.selectedNodes = [];
-    //   dispatch("RENDER");
+    //   render();
     // }
 
     nodeClicked = false;

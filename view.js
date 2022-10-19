@@ -1,6 +1,8 @@
 import { render, html, svg } from './uhtml.js';
 import { dispatch } from "./index.js";
 import { onUpload } from "./uploadHandlers.js";
+import { delete_node } from "./actions/delete_node.js";
+import { evaluate_node } from "./actions/evaluate_node.js";
 
 const drawNodeToolbox = node => html`
   <div class="toolbox-node" data-type=${node}>
@@ -48,8 +50,8 @@ const drawNode = (item, state) => { // TODO: make this a keyed-render
       <div class="node-title">
         <div class="node-name">${nt.name}</div>
         <div class="node-buttons">
-          <div class="node-play" @click=${e => dispatch("EVALUATE_NODE", { id: k })}>►</div>
-          <div class="node-delete" @click=${e => dispatch("DELETE_NODE", { id: k })}>x</div>
+          <div class="node-play" @click=${e => evaluate_node(k)}>►</div>
+          <div class="node-delete" @click=${e => delete_node(k)}>x</div>
         </div>
       </div>
       ${nt.inputs.map((x, i) => drawNodeInput(k, i, x))}
@@ -204,7 +206,7 @@ function drawNodeInputs(state) {
   `
 }
 
-export default function view(state) {
+export function view(state) {
   let searchQuery = document.querySelector(".toolbox-search")?.value || "";
   searchQuery = searchQuery.toLowerCase();
   const filteredNodes = Object.keys(state.nodeTypes).filter(x => x.toLowerCase().includes(searchQuery));
