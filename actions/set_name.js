@@ -3,8 +3,8 @@ import { validateName } from "../validateName.js";
 
 export function set_name(name) {
   STATE.name = validateName(name);
-  const nameContainer = document.querySelector(".menu-name");
+  // const nameContainer = document.querySelector(".menu-name");
 
   // unfortunately we break our RENDER pattern here
-  nameContainer.innerText = STATE.name;
+  // nameContainer.innerText = STATE.name;
 }

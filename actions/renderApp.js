@@ -6,5 +6,5 @@ import { view } from "../view.js";
 
 export const renderApp = () => {
   // render(document.body, view(STATE));
-  render(view(STATE), document.body);
+  // render(view(STATE), document.body);
 }

@@ -10,7 +10,7 @@ export function load_file(json) {
   STATE.name = name;
 
   // why must I do this twice?
-  renderApp();
-  set_name(name);
+  // renderApp();
+  // set_name(name);
   renderApp();
 }
