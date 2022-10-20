@@ -160,7 +160,6 @@ function drawNodeInputs(state) {
 
   const onInput = (v, index) => {
     node.inputs[index] = v;
-    // dispatch("RENDER");
   }
 
   const inputTypes = {
@@ -170,7 +169,6 @@ function drawNodeInputs(state) {
         <input
           .value=${value}
           .disabled=${wired}
-          @blur=${e => dispatch("RENDER")}/>
           @input=${e => onInput(e.target.value, index)}/>
       </div>
     `,
@@ -181,7 +179,6 @@ function drawNodeInputs(state) {
           type=checkbox
           .checked=${value ? 'checked' : ''}
           .disabled=${wired}
-          @blur=${e => dispatch("RENDER")}/>
           @input=${e => onInput(!!e.target.checked, index)}/>
       </div>
     `,
@@ -246,7 +243,7 @@ export function view(state) {
       <div class="bottom-container">
         <div class="toolbox">
           <div class="toolbox-search-container">
-            <input class="toolbox-search" @input=${e => dispatch("RENDER")}></input>
+            <input class="toolbox-search"></input>
             <div class="toolbox-search-results">
               ${filteredNodes.map(drawNodeToolbox)}
             </div>
