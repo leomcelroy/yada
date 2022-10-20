@@ -1,5 +1,5 @@
 // import { render, html, svg } from '../uhtml.js';
-import { render, html, svg } from 'https://cdn.skypack.dev/lit-html';
+import { render, html, svg } from 'lit-html';
 
 import { global_state as STATE } from "../global_state.js";
 import { view } from "../view.js";

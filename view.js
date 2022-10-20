@@ -1,6 +1,6 @@
 // import { html, svg } from './uhtml.js';
-import { html, svg } from 'https://cdn.skypack.dev/lit-html';
-import {repeat} from 'https://cdn.skypack.dev/lit-html/directives/repeat.js';
+import { html, svg } from 'lit-html';
+import {repeat} from 'lit-html/directives/repeat.js';
 import { onUpload } from "./uploadHandlers.js";
 import { delete_node } from "./actions/delete_node.js";
 import { evaluate_node } from "./actions/evaluate_node.js";
