@@ -1,6 +1,6 @@
 // import { html, svg } from './uhtml.js';
 import { html, svg } from 'https://cdn.skypack.dev/lit-html';
-
+import {repeat} from 'https://cdn.skypack.dev/lit-html/directives/repeat.js';
 import { onUpload } from "./uploadHandlers.js";
 import { delete_node } from "./actions/delete_node.js";
 import { evaluate_node } from "./actions/evaluate_node.js";
@@ -282,7 +282,12 @@ export function view(state) {
           </svg>
           <div class="nodes">
             <div class="transform-group">
-              ${Object.entries(state.nodes).map(e => drawNode(e, state))}
+              ${repeat(
+                Object.entries(state.nodes), 
+                node => node[0], 
+                (x) => drawNode(x, state)
+              )}
+              
               ${drawSelectBox(state.selectBox)}
             </div>
           </div>
@@ -291,6 +296,8 @@ export function view(state) {
     </div>
   `
 }
+
+// ${Object.entries(state.nodes).map(e => drawNode(e, state))}
 
 
 
