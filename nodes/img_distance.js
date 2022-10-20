@@ -1,5 +1,3 @@
-import { render, html, svg } from '../uhtml.js';
-
 function workerInternal() {
 
   self.onmessage = function(e) {

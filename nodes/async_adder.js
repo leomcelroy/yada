@@ -1,5 +1,3 @@
-import { render, html, svg } from '../uhtml.js';
-
 export default {
   name: "async_adder",
   inputs: [
@@ -11,7 +9,7 @@ export default {
   ],
   onUpdate(node) {
 
-    return html.node`
+    return `
       <div>hello world</div>
       <div>the answer is ${node.outputs[0]}</div>
     `

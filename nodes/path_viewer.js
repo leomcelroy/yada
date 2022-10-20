@@ -1,6 +1,3 @@
-import { html, svg, render } from "../uhtml.js";
-
-
 
 export default {
   name: "path viewer",
@@ -30,7 +27,7 @@ export default {
         .map(pair => `${pair[0]} ${height - pair[1]}`)
         .join(",")}`;
 
-      return svg`<path d="${pathData}" fill="none" stroke="${color}"></path>`;
+      return `<path d="${pathData}" fill="none" stroke="${color}"></path>`;
     };
 
     const renderVectors = (arrayOfVectors, width, height) => {
@@ -47,10 +44,8 @@ export default {
 
     // FIXME: we need to get the height/width from somewhere
     let rez = renderVectors( node.inputs[0], 100,100 );
-
-    const container = document.querySelector(`[data-id="${id}"] > .node-view`);
-
-    svg.node`<svg viewBox="0 0 500 500">${rez}</svg>`
+    
+    return `<svg viewBox="0 0 500 500">${rez}</svg>`
    
   },
   func: (x, y) => {

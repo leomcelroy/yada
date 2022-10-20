@@ -1,4 +1,3 @@
-import { render, html, svg } from '../uhtml.js';
 
 function workerInternal() {
 
@@ -21,7 +20,7 @@ export default {
   outputs: [
     { name: "sum", type: "number" }
   ],
-  onUpdate(node, container) { },
+  onUpdate(node) { },
   func: async (x, y) => {
 
     const blob = new Blob(["(" + workerInternal.toString() + "())"]);

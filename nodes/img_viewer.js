@@ -1,4 +1,3 @@
-import { render, html, svg } from '../uhtml.js';
 
 export default {
   name: "img viewer",

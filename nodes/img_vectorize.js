@@ -1,4 +1,3 @@
-import { render, html } from '../uhtml.js';
 
 //vectorize -> image: RGBA, vectorFit: pixels => path: array
 //input is red 128:north,64:south, green 128:east,64:west, blue 128:start,64:stop
@@ -214,7 +213,7 @@ export default {
     // FIXME: why shouldn't this show the vector (path_viewer.js)?
     const container = document.querySelector(`[data-id="${id}"] > .node-view`);
 
-    return html.node`
+    return `
       <div><span>paths</span> <span>${path.length}</span></div>
     `
   },

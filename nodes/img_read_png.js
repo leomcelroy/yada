@@ -1,4 +1,3 @@
-import { render, html } from '../uhtml.js';
 
 export default {
   name: "read png",

@@ -1,17 +1,13 @@
-import { render, html, svg } from '../uhtml.js';
+import { html } from '../uhtml.js';
 
 export default {
   name: "web serial",
   inputs: [],
   outputs: [],
-  onUpdate(node, container) {
-    console.log("updating");
-    render(
-      container, 
-      html`
-        <button @click=${startSerialPort}>ports</button>
-      `
-    )
+  onUpdate(node) {
+    return html.node`
+      <button @click=${startSerialPort}>ports</button>
+    `
   },
   func: (x, y) => {
 

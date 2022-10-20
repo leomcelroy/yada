@@ -184,17 +184,16 @@ function addNodeDragging(listen, state) {
   listen("mousedown", "", e => {
 
     document.body.classList.add("no-select");
-    const path = e.composedPath();
-    if (path.some(div => div.matches && div.matches(".socket"))) {
+    if (pathContains(e, ".socket")) {
       state.dataflow.togglePanZoom(true);
       return;
     }
 
     if (!pathContains(e, ".dataflow")) return;
 
-    nodeClicked = path.find(div => div.matches && div.matches(".node"));
+    nodeClicked = e.composedPath().find(div => div.matches && div.matches(".node"));
 
-    if (nodeClicked) {
+    if (pathContains(e, ".node")) {
       state.dataflow.togglePanZoom(true);
       nodeId = nodeClicked.dataset.id;
       const selected = state.selectedNodes.includes(nodeId);
@@ -210,11 +209,11 @@ function addNodeDragging(listen, state) {
     }
 
     // hacky bug fix, for some reason input views intefere with each other
-    const tempSelected = state.selectedNodes;
-    state.selectedNodes = [];
-    renderApp();
+    // const tempSelected = state.selectedNodes;
+    // state.selectedNodes = [];
+    // renderApp();
 
-    state.selectedNodes = tempSelected;
+    // state.selectedNodes = tempSelected;
     renderApp();
   })
 

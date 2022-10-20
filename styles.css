@@ -97,7 +97,7 @@ html, body {
 
 .node {
   position: absolute;
-  width: 150px;
+  width: 170px;
   height: min-content;
   background: #add8e6e6;
   border-radius: 10px;

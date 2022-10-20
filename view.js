@@ -1,4 +1,6 @@
-import { html, svg } from './uhtml.js';
+// import { html, svg } from './uhtml.js';
+import { html, svg } from 'https://cdn.skypack.dev/lit-html';
+
 import { onUpload } from "./uploadHandlers.js";
 import { delete_node } from "./actions/delete_node.js";
 import { evaluate_node } from "./actions/evaluate_node.js";
@@ -46,7 +48,7 @@ const drawNode = (item, state) => { // TODO: make this a keyed-renderApp
   
   const selected = state.selectedNodes.includes(k);
 
-  return html.for(node, k)`
+  return html`
     <div
       class=${["node", selected ? "selected-node" : ""].join(" ")}
       data-id=${k}
@@ -86,20 +88,28 @@ function getRelative(selector0, selector1) {
 function drawEdge(edge, state) { // there muse be a better way to do this
   const { nodes } = state;
   const [ outNode, inNode ] = edge.map(x => x.split(":")[0]);
-  const { x: outX, y: outY } = nodes[outNode];
+  const [ outIndex, inIndex ] = edge.map(x => Number(x.split(":")[2]));
+  
+  const { x: outX, y: outY, inputs: ins } = nodes[outNode];
   const { x: inX, y: inY } = nodes[inNode];
 
-  if (!document.querySelector(".socket") || state.dataflow === null) return "";
+  if (state.dataflow === null) return;
+  // if (!document.querySelector(".socket") || state.dataflow === null) return "";
 
-  const offset0 = getRelative(`[data-id="${edge[0]}"]`, `.dataflow`);
-  const offset1 = getRelative(`[data-id="${edge[1]}"]`, `.dataflow`);
-  const rect0 = document.querySelector(`[data-id="${edge[0]}"]`)?.getBoundingClientRect() || { top: 0, left: 0 };
-  const rect1 = document.querySelector(`[data-id="${edge[1]}"]`)?.getBoundingClientRect() || { top: 0, left: 0 };
+  // const offset0 = getRelative(`[data-id="${edge[0]}"]`, `.dataflow`);
+  // const offset1 = getRelative(`[data-id="${edge[1]}"]`, `.dataflow`);
+  // const rect0 = document.querySelector(`[data-id="${edge[0]}"]`)?.getBoundingClientRect() || { top: 0, left: 0 };
+  // const rect1 = document.querySelector(`[data-id="${edge[1]}"]`)?.getBoundingClientRect() || { top: 0, left: 0 };
 
-  const x0 = offset0[0]+rect0.width/2;
-  const y0 = offset0[1]+rect0.height/2;
-  const x1 = offset1[0]+rect1.width/2;
-  const y1 = offset1[1]+rect1.height/2;
+  // const x0 = offset0[0]+rect0.width/2;
+  // const y0 = offset0[1]+rect0.height/2;
+  // const x1 = offset1[0]+rect1.width/2;
+  // const y1 = offset1[1]+rect1.height/2;
+
+  const x0 = (outX + 190)*state.dataflow.scale() + state.dataflow.x();
+  const y0 = (outY+37+(18.5*(outIndex + ins.length)))*state.dataflow.scale() + state.dataflow.y();
+  const x1 = (inX)*state.dataflow.scale() + state.dataflow.x();
+  const y1 = (inY+37+(18.5*inIndex))*state.dataflow.scale() + state.dataflow.y();
 
 
   let xDist = Math.abs(x0 - x1);
@@ -119,10 +129,14 @@ function drawTempEdge(edge, state) {
 
   if (from === "" || state.dataflow === null) return svg``;
 
-  const offset0 = getRelative(`[data-id="${from}"]`, `.dataflow`);
-
-  const x0 = offset0[0]+document.querySelector(`[data-id="${from}"]`).getBoundingClientRect().width/2;
-  const y0 = offset0[1]+document.querySelector(`[data-id="${from}"]`).getBoundingClientRect().height/2;
+  // const offset0 = getRelative(`[data-id="${from}"]`, `.dataflow`);
+  // const x0 = offset0[0]+document.querySelector(`[data-id="${from}"]`).getBoundingClientRect().width/2;
+  // const y0 = offset0[1]+document.querySelector(`[data-id="${from}"]`).getBoundingClientRect().height/2;
+  
+  const { x: outX, y: outY, inputs: ins } = state.nodes[from.split(":")[0]];
+  const outIndex = Number(from.split(":")[2]);
+  const x0 = (outX + 190)*state.dataflow.scale() + state.dataflow.x();
+  const y0 = (outY+37+(18.5*(outIndex + ins.length)))*state.dataflow.scale() + state.dataflow.y();
 
   let xDist = Math.abs(x0 - x1);
   xDist = xDist/1.3;

@@ -1,4 +1,4 @@
-import { render, html, svg } from '../uhtml.js';
+import { html } from '../uhtml.js';
 
 export default {
   name: "web socket",
@@ -6,14 +6,12 @@ export default {
     { name: "msg", type: "string", input: "box" },
   ],
   outputs: [],
-  onUpdate(node, container) {
-    node.state.count = 0;
-    render(
-      container, 
-      html`
-        <button @click=${() => testSocket(node.state)}>start socket</button>
-      `
-    )
+  onUpdate(node) {
+    
+    return html.node`
+      <button @click=${() => testSocket(node.state)}>start socket</button>
+    `
+    
   },
   func: (msg) => {
     console.log(msg);

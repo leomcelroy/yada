@@ -1,5 +1,3 @@
-import { render, html, svg } from '../uhtml.js';
-
 export default {
   name: "adder",
   inputs: [
@@ -14,7 +12,7 @@ export default {
     // el.innerHTML = node.outputs[0];
     // return el;
     
-    return html.node`
+    return `
       <div>hello world</div>
       <div>the answer is ${node.outputs[0]}</div>
     `

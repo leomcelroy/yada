@@ -115,7 +115,10 @@ export async function evaluateNode(node, nodes, connections, nodeTypes) {
       if (typeof view === "string") {
         container.innerHTML = view;
       } else {
-        container.innerHTML = "";
+        // container.innerHTML = "";
+        while (container.firstChild) {
+          container.removeChild(container.lastChild);
+        }
         container.append(view);
       }
     })
