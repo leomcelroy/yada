@@ -1,8 +1,10 @@
 import { render, html, svg } from './uhtml.js';
-import { dispatch } from "./index.js";
 import { onUpload } from "./uploadHandlers.js";
 import { delete_node } from "./actions/delete_node.js";
 import { evaluate_node } from "./actions/evaluate_node.js";
+import { save_to_file } from "./actions/save_to_file.js";
+import { set_name } from "./actions/set_name.js";
+import { load_file } from "./actions/load_file.js";
 
 const drawNodeToolbox = node => html`
   <div class="toolbox-node" data-type=${node}>
@@ -39,7 +41,8 @@ const drawNode = (item, state) => { // TODO: make this a keyed-render
     // FIXME: better message/exception-type. catch in load-file
     // FIXME: this also crashes all future rendering
     throw ["The node type '",node.type,"' isn't a known one (name change?): ",Object.keys(state.nodeTypes)].join("");
-    }
+  }
+  
   const selected = state.selectedNodes.includes(k);
 
   return html.for(node, k)`
@@ -167,8 +170,8 @@ function drawNodeInputs(state) {
         <input
           .value=${value}
           .disabled=${wired}
-          @input=${e => onInput(e.target.value, index)}
           @blur=${e => dispatch("RENDER")}/>
+          @input=${e => onInput(e.target.value, index)}/>
       </div>
     `,
     "check": (name, value, wired, index) => html`
@@ -178,8 +181,8 @@ function drawNodeInputs(state) {
           type=checkbox
           .checked=${value ? 'checked' : ''}
           .disabled=${wired}
-          @input=${e => onInput(!!e.target.checked, index)}
           @blur=${e => dispatch("RENDER")}/>
+          @input=${e => onInput(!!e.target.checked, index)}/>
       </div>
     `,
     "upload": (name, value, wired, index) => html`
@@ -218,13 +221,13 @@ export function view(state) {
           class="menu-item menu-name" 
           contenteditable 
           spellcheck="false"
-          @blur=${e => dispatch("SET_NAME", { name: e.target.innerText })}>${state.name}</div>
-        <div class="menu-item" @click=${() => dispatch("SAVE_TO_FILE")}>save</div>
+          @blur=${e => set_name(e.target.innerText)}>${state.name}</div>
+        <div class="menu-item" @click=${() => save_to_file()}>save</div>
         <div class="menu-item" @click=${() => document.getElementById("load_file").click()}>load</div>
         <!-- hidden -->
         <input type="file" accept=".json" style="display:none;" id="load_file" name="file" @input=${e => {
           const file = e.target.files[0];
-          readFile(file).then( json => dispatch("LOAD_FILE", { json }) ); 
+          readFile(file).then( json => load_file(json) ); 
         }}>
 
         <div class="menu-item dropdown-container">
@@ -274,6 +277,8 @@ export function view(state) {
     </div>
   `
 }
+
+
 
 function readFile(file) {
   // file is an event.target.files[0], from change event of a <input type="file")

@@ -9,7 +9,7 @@ export default {
   ],
   outputs: [
   ],
-  onUpdate(node, container) {
+  onUpdate(node) {
     //render
     const connectingVectors = (arrayOfVectors, width, height) => {
       const reducer = (acc, cur, index) =>
@@ -48,11 +48,10 @@ export default {
     // FIXME: we need to get the height/width from somewhere
     let rez = renderVectors( node.inputs[0], 100,100 );
 
-    render(
-      container,
-      // FIXME: we need to get the height/width from somewhere
-      svg`<svg viewBox="0 0 500 500">${rez}</svg>`
-    );
+    const container = document.querySelector(`[data-id="${id}"] > .node-view`);
+
+    svg.node`<svg viewBox="0 0 500 500">${rez}</svg>`
+   
   },
   func: (x, y) => {
 

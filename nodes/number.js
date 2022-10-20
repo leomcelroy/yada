@@ -6,8 +6,8 @@ export default {
   outputs: [
     { name: "outputNum", type: "number" }
   ],
-  onUpdate(node, container) {
-    container.innerHTML = `value: ${node.inputs[0]}`
+  onUpdate(node) {
+    return `value: ${node.inputs[0]}`
   },
   func(num) {
     return [ num ];

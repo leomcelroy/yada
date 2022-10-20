@@ -9,14 +9,15 @@ export default {
   outputs: [
     { name: "sum", type: "number" }
   ],
-  onUpdate(node, container) {
-    render(
-      container, 
-      html`
-        <div>hello world</div>
-        <div>the answer is ${node.outputs[0]}</div>
-      `
-    )
+  onUpdate(node) {
+    // const el = document.createElement("div");
+    // el.innerHTML = node.outputs[0];
+    // return el;
+    
+    return html.node`
+      <div>hello world</div>
+      <div>the answer is ${node.outputs[0]}</div>
+    `
   },
   func: (x, y) => {
 

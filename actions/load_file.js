@@ -1,5 +1,5 @@
 import { global_state as STATE } from "../global_state.js";
-import { encode, decode } from "./encodeDecodeBOTA.js";
+import { encode, decode } from "../encodeDecodeBOTA.js";
 import { render } from "./render.js";
 import { set_name } from "./set_name.js";
 

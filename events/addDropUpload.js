@@ -1,4 +1,4 @@
-import { dispatch } from "../index.js";
+import { load_file } from "../actions/load_file.js";
 
 function upload(files, extensions = []) {
   let file = files[0];
@@ -22,7 +22,7 @@ function readFile(file) {
     const json = reader.result;
 
     try {
-      dispatch("LOAD_FILE", { json });
+      load_file(json);
     } catch (err) {}
   };
 }

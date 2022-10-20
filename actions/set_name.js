@@ -1,5 +1,5 @@
 import { global_state as STATE } from "../global_state.js";
-import { validateName } from "./validateName.js";
+import { validateName } from "../validateName.js";
 
 export function set_name() {
   STATE.name = validateName(name);

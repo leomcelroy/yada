@@ -1,5 +1,4 @@
-import { dispatch } from "../index.js";
-
+import { render } from "./actions/render.js";
 
 const getXY = (e, selector) => {
   let rect = document.querySelector(selector).getBoundingClientRect();
@@ -42,7 +41,8 @@ export function addSelectBox(listener, state) {
       Math.max(start[0], end[0]),
       Math.max(start[1], end[1]),
     ];
-    dispatch("RENDER");
+
+    render();
   })
 
   function contains (p, selectBox) {
@@ -73,6 +73,6 @@ export function addSelectBox(listener, state) {
     end = null;
     state.selectBox.start = start;
     state.selectBox.end = end;
-    dispatch("RENDER");
+    render();
   })
 }

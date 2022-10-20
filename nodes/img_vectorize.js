@@ -209,15 +209,14 @@ export default {
   outputs: [
     { name: "paths", type: "path" }
   ],
-  onUpdate(node, container) {
+  onUpdate(node, id) {
     const path = node.outputs[0];
     // FIXME: why shouldn't this show the vector (path_viewer.js)?
-    render(
-      container,
-      html`
-        <div><span>paths</span> <span>${path.length}</span></div>
-        `
-      );
+    const container = document.querySelector(`[data-id="${id}"] > .node-view`);
+
+    return html.node`
+      <div><span>paths</span> <span>${path.length}</span></div>
+    `
   },
   func: async (img, vectorFit, sort) => {
 
