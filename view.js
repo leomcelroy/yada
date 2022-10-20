@@ -5,6 +5,7 @@ import { evaluate_node } from "./actions/evaluate_node.js";
 import { save_to_file } from "./actions/save_to_file.js";
 import { set_name } from "./actions/set_name.js";
 import { load_file } from "./actions/load_file.js";
+import { render } from "./actions/render.js";
 
 const drawNodeToolbox = node => html`
   <div class="toolbox-node" data-type=${node}>
@@ -169,6 +170,7 @@ function drawNodeInputs(state) {
         <input
           .value=${value}
           .disabled=${wired}
+          @blur=${render}
           @input=${e => onInput(e.target.value, index)}/>
       </div>
     `,
@@ -179,6 +181,7 @@ function drawNodeInputs(state) {
           type=checkbox
           .checked=${value ? 'checked' : ''}
           .disabled=${wired}
+          @blur=${render}
           @input=${e => onInput(!!e.target.checked, index)}/>
       </div>
     `,
@@ -243,7 +246,7 @@ export function view(state) {
       <div class="bottom-container">
         <div class="toolbox">
           <div class="toolbox-search-container">
-            <input class="toolbox-search"></input>
+            <input class="toolbox-search" @input=${render}></input>
             <div class="toolbox-search-results">
               ${filteredNodes.map(drawNodeToolbox)}
             </div>
