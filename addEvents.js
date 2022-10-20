@@ -2,7 +2,7 @@ import { addSelectBox } from "./events/addSelectBox.js";
 import { addDropUpload } from "./events/addDropUpload.js";
 import { addPanZoom } from "./events/addPanZoom.js";
 
-import { render } from "./actions/render.js";
+import { renderApp } from "./actions/renderApp.js";
 import { remove_connection } from "./actions/remove_connection.js";
 import { add_connection } from "./actions/add_connection.js";
 import { delete_node } from "./actions/delete_node.js";
@@ -61,7 +61,7 @@ function addNodeAdding(listen, state) {
     typeToAdd = e.target.dataset.type;
     dragging = true;
     id = Math.random().toString(16).slice(2);
-    render();
+    renderApp();
   })
 
   listen("mousemove", "", e => {
@@ -85,14 +85,14 @@ function addNodeAdding(listen, state) {
       outputs: defaultOutputs,
       evaluated: new Array(defaultOutputs.length).fill(false)
     }
-    render();
+    renderApp();
 
   })
 
   listen("mouseup", "", e => {
     if (dragging && pathContains(e, ".toolbox")) {
       delete state.nodes[id];
-      render();
+      renderApp();
     }
 
     /*
@@ -133,7 +133,7 @@ function addWireManipulation(listen, state) {
   })
 
   listen("wheel", "", e => {
-    render();
+    renderApp();
   })
 
   listen("mousemove", "", e => {
@@ -144,7 +144,7 @@ function addWireManipulation(listen, state) {
         from,
         getXY(e, ".dataflow")
       ];
-      render();
+      renderApp();
     }
 
     if (currentIndex !== -1) {
@@ -171,7 +171,7 @@ function addWireManipulation(listen, state) {
     currentIndex = -1;
 
     state.tempEdge = ["", [0, 0]];
-    render();
+    renderApp();
   })
 
 }
@@ -212,10 +212,10 @@ function addNodeDragging(listen, state) {
     // hacky bug fix, for some reason input views intefere with each other
     const tempSelected = state.selectedNodes;
     state.selectedNodes = [];
-    render();
+    renderApp();
 
     state.selectedNodes = tempSelected;
-    render();
+    renderApp();
   })
 
   listen("mousemove", "", e => {
@@ -228,7 +228,7 @@ function addNodeDragging(listen, state) {
       move_node(id, e.movementX/scale, e.movementY/scale);
     })
 
-    render();
+    renderApp();
 
   })
 
@@ -239,7 +239,7 @@ function addNodeDragging(listen, state) {
 
     // if (state.selectedNodes.length === 1 && moved) {
     //   state.selectedNodes = [];
-    //   render();
+    //   renderApp();
     // }
 
     nodeClicked = false;

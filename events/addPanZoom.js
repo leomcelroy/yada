@@ -1,4 +1,4 @@
-import { render } from "./actions/render.js";
+import { renderApp } from "../actions/renderApp.js";
 
 const trigger = e => e.composedPath()[0];
 const matchesTrigger = (e, selectorString) => trigger(e).matches(selectorString);
@@ -40,7 +40,7 @@ export function addPanZoom(el) {
       el.style.transform = "translate(" + pointX + "px, " + pointY + "px) scale(" + scale + ")";
     })
 
-    render();
+    renderApp();
   }
 
   function getPoint(x, y) {

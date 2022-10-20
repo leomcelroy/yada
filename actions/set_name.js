@@ -1,7 +1,7 @@
 import { global_state as STATE } from "../global_state.js";
 import { validateName } from "../validateName.js";
 
-export function set_name() {
+export function set_name(name) {
   STATE.name = validateName(name);
   const nameContainer = document.querySelector(".menu-name");
 

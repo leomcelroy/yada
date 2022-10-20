@@ -1,11 +1,11 @@
-import { render, html, svg } from './uhtml.js';
+import { html, svg } from './uhtml.js';
 import { onUpload } from "./uploadHandlers.js";
 import { delete_node } from "./actions/delete_node.js";
 import { evaluate_node } from "./actions/evaluate_node.js";
 import { save_to_file } from "./actions/save_to_file.js";
 import { set_name } from "./actions/set_name.js";
 import { load_file } from "./actions/load_file.js";
-import { render } from "./actions/render.js";
+import { renderApp } from "./actions/renderApp.js";
 
 const drawNodeToolbox = node => html`
   <div class="toolbox-node" data-type=${node}>
@@ -35,12 +35,12 @@ const drawNodeOutput = (k, index, output) => html`
   </div>
 `
 
-const drawNode = (item, state) => { // TODO: make this a keyed-render
+const drawNode = (item, state) => { // TODO: make this a keyed-renderApp
   const [ k, node ] = item;
   const nt = state.nodeTypes[node.type];
   if (! nt) {
     // FIXME: better message/exception-type. catch in load-file
-    // FIXME: this also crashes all future rendering
+    // FIXME: this also crashes all future renderApping
     throw ["The node type '",node.type,"' isn't a known one (name change?): ",Object.keys(state.nodeTypes)].join("");
   }
   
@@ -170,7 +170,7 @@ function drawNodeInputs(state) {
         <input
           .value=${value}
           .disabled=${wired}
-          @blur=${render}
+          @blur=${renderApp}
           @input=${e => onInput(e.target.value, index)}/>
       </div>
     `,
@@ -181,7 +181,7 @@ function drawNodeInputs(state) {
           type=checkbox
           .checked=${value ? 'checked' : ''}
           .disabled=${wired}
-          @blur=${render}
+          @blur=${renderApp}
           @input=${e => onInput(!!e.target.checked, index)}/>
       </div>
     `,
@@ -246,7 +246,7 @@ export function view(state) {
       <div class="bottom-container">
         <div class="toolbox">
           <div class="toolbox-search-container">
-            <input class="toolbox-search" @input=${render}></input>
+            <input class="toolbox-search" @input=${renderApp}></input>
             <div class="toolbox-search-results">
               ${filteredNodes.map(drawNodeToolbox)}
             </div>

@@ -1,6 +1,6 @@
 import { global_state as STATE } from "../global_state.js";
 import { encode, decode } from "../encodeDecodeBOTA.js";
-import { render } from "./render.js";
+import { renderApp } from "./renderApp.js";
 import { set_name } from "./set_name.js";
 
 export function load_file(json) {
@@ -8,6 +8,9 @@ export function load_file(json) {
   STATE.nodes = nodes;
   STATE.connections = connections;
   STATE.name = name;
-  render();
+
+  // why must I do this twice?
+  renderApp();
   set_name(name);
+  renderApp();
 }
