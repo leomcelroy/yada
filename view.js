@@ -106,10 +106,10 @@ function drawEdge(edge, state) { // there muse be a better way to do this
   // const x1 = offset1[0]+rect1.width/2;
   // const y1 = offset1[1]+rect1.height/2;
 
-  const x0 = (outX + 190)*state.dataflow.scale() + state.dataflow.x();
-  const y0 = (outY+37+(18.5*(outIndex + ins.length)))*state.dataflow.scale() + state.dataflow.y();
-  const x1 = (inX)*state.dataflow.scale() + state.dataflow.x();
-  const y1 = (inY+37+(18.5*inIndex))*state.dataflow.scale() + state.dataflow.y();
+  const x0 = (outX + 190)*(state.dataflow.scale()) + state.dataflow.x();
+  const y0 = (outY+37+(18.5*(outIndex + ins.length)))*(state.dataflow.scale()) + state.dataflow.y();
+  const x1 = (inX)*(state.dataflow.scale()) + state.dataflow.x();
+  const y1 = (inY+37+(18.5*inIndex))*(state.dataflow.scale()) + state.dataflow.y();
 
 
   let xDist = Math.abs(x0 - x1);

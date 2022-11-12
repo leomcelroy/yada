@@ -3,6 +3,7 @@ import { view } from "./view.js";
 import { global_state as STATE } from "./global_state.js";
 import { render, html, svg } from 'lit-html';
 // import { render, html, svg } from '../uhtml.js';
+import "./broadcast.js";
 
 
 const r = () => render(view(STATE), document.body);

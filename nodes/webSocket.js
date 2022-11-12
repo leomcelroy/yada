@@ -1,4 +1,4 @@
-import { html } from '../uhtml.js';
+import { html } from 'uhtml';
 
 export default {
   name: "web socket",

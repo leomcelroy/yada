@@ -266,7 +266,7 @@ html, body {
   border: 3px solid sandybrown;
   margin: 2px;
   border-radius: 5px;
-  padding: 2px 8px 2px 8px;
+  padding: 2px 10px 2px 10px;
   height: 30%;
 }
 
@@ -277,8 +277,12 @@ html, body {
 
 .node-editor-input {
   display: flex;
-  /*padding: 2px 8px 2px 8px;*/
+  padding: 2px 0px 2px 0px;
   justify-content: space-between;
+}
+
+.node-editor-input input {
+  width: 50%;
 }
 
 .dataflow {

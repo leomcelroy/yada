@@ -249,6 +249,39 @@ function addNodeDragging(listen, state) {
   })
 }
 
+function fixBrowserZoom() {
+  let px_ratio = window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
+  const edges = document.querySelector(".edges");
+  window.addEventListener("resize", e => {
+    // console.log("resizing", e);
+    var newPx_ratio = window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
+    if (newPx_ratio != px_ratio) {
+        px_ratio = newPx_ratio;
+        // console.log("zooming");
+        // console.log(px_ratio);
+        edges.style.scale = `calc(${px_ratio}/2)`;
+        return true;
+    } else{
+        // console.log("just resizing");
+        return false;
+    }
+  })
+}
+
+function preventZoom() {
+  document.addEventListener("keydown", e => {
+    const keysOfInterest = [61, 107, 173, 109, 187, 189];
+    if ((e.ctrlKey || e.metaKey) && keysOfInterest.some(x => e.which === x)) {
+      e.preventDefault();
+    }
+  });
+
+  // TODO: check this
+  document.addEventListener("mousewheel", e => {
+    if (e.ctrlKey || e.metaKey) e.preventDefault();
+  });
+}
+
 export function addEvents(state) {
 
   state.dataflow = addPanZoom(document.querySelector(".dataflow"));
@@ -261,4 +294,6 @@ export function addEvents(state) {
   addNodeAdding(listenBody, state);
   addSelectBox(listenBody, state);
   addDropUpload(listenBody, state);
+
+  preventZoom();
 }
