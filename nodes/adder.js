@@ -4,6 +4,9 @@ export default {
     { name: "x", type: "number", input: "box" },
     { name: "y", type: "number", input: "box" }
   ],
+  state: {
+    test: 10,
+  },
   outputs: [
     { name: "sum", type: "number" }
   ],
@@ -11,7 +14,7 @@ export default {
     // const el = document.createElement("div");
     // el.innerHTML = node.outputs[0];
     // return el;
-    
+        
     return `
       <div>hello world</div>
       <div>the answer is ${node.outputs[0]}</div>

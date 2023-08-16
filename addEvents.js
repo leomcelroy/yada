@@ -70,7 +70,7 @@ function addNodeAdding(listen, state) {
 
     const [ x, y ] = state.dataflow.getPoint(...getXY(e, ".dataflow"));
 
-    const { inputs, outputs } = state.nodeTypes[typeToAdd];
+    const { inputs, outputs, state: nodeState } = state.nodeTypes[typeToAdd];
 
     const defaultInputs = inputs.map(x => defaultValues[x.type]);
     const defaultOutputs = outputs.map(x => defaultValues[x.type]);
@@ -78,13 +78,14 @@ function addNodeAdding(listen, state) {
     // TODO: get default values from types
     state.nodes[id] = {
       type: typeToAdd,
-      state: {},
+      state: nodeState,
       x,
       y,
       inputs: defaultInputs,
       outputs: defaultOutputs,
       evaluated: new Array(defaultOutputs.length).fill(false)
     }
+
     renderApp();
 
   })
